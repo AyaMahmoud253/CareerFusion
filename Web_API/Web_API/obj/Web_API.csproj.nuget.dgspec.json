@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\aya2\\level4\\GP\\.net\\Web_API\\Web_API\\Web_API.csproj": {}
+    "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj": {}
   },
   "projects": {
-    "D:\\aya2\\level4\\GP\\.net\\Web_API\\Web_API\\Web_API.csproj": {
+    "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\aya2\\level4\\GP\\.net\\Web_API\\Web_API\\Web_API.csproj",
+        "projectUniqueName": "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
         "projectName": "Web_API",
-        "projectPath": "D:\\aya2\\level4\\GP\\.net\\Web_API\\Web_API\\Web_API.csproj",
+        "projectPath": "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
         "packagesPath": "C:\\Users\\htc\\.nuget\\packages\\",
-        "outputPath": "D:\\aya2\\level4\\GP\\.net\\Web_API\\Web_API\\obj\\",
+        "outputPath": "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\htc\\AppData\\Roaming\\NuGet\\NuGet.Config",
