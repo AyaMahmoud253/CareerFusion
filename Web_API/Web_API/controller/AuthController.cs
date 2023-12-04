@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web_API.Models;
 using Web_API.services;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+
 namespace Web_API.controller
 {
     [Route("api/[controller]")]
@@ -27,8 +27,9 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
-            return Ok(new { token = result.Token,Exception=result.ExpiresOn });
+            return Ok("registered successfully!");//can return result.Token
         }
+
         [HttpPost("token")]
         public async Task<IActionResult> GetTokenAsync([FromBody] TokenRequestModel model)
         {
@@ -40,8 +41,21 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
-            return Ok(result);
+            return Ok("Login successfully!");
         }
 
+        [HttpPost("addrole")]
+        public async Task<IActionResult> AddRoleAsync([FromBody] AddRoleModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.AddRoleAsync(model);
+
+            if (!string.IsNullOrEmpty(result))
+                return BadRequest(result);
+
+            return Ok("Role added successfully!");//can return model
+        }
     }
 }

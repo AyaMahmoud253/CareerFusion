@@ -6,6 +6,6 @@ namespace Web_API.services
     {
         Task<AuthModel> RegisterAsync(RegisterModel model);
         Task<AuthModel> GetTokenAsync(TokenRequestModel model);
-
+        Task<string> AddRoleAsync(AddRoleModel model);
     }
 }

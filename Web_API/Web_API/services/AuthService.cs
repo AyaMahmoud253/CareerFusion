@@ -87,6 +87,20 @@ namespace Web_API.services
 
             return authModel;
         }
+        public async Task<string> AddRoleAsync(AddRoleModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            if (user is null || !await _roleManager.RoleExistsAsync(model.Role))
+                return "Invalid user ID or Role";
+
+            if (await _userManager.IsInRoleAsync(user, model.Role))
+                return "User already assigned to this role";
+
+            var result = await _userManager.AddToRoleAsync(user, model.Role);
+
+            return result.Succeeded ? string.Empty : "Sonething went wrong";
+        }
         private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
