@@ -22,7 +22,13 @@ namespace Web_API.services
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _jwt = jwt.Value;
+            _jwt = jwt?.Value ?? throw new ArgumentNullException(nameof(jwt));
+
+            if (_jwt == null)
+            {
+                // Log or throw an exception to capture this scenario
+                throw new InvalidOperationException("JWT configuration is null");
+            }
         }
         public async Task<AuthModel> RegisterAsync(RegisterModel model)
         {
@@ -36,7 +42,7 @@ namespace Web_API.services
                 FullName = model.FullName,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
-                
+
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -105,18 +111,16 @@ namespace Web_API.services
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
-            var roleClaims = new List<Claim>();
 
-            foreach (var role in roles)
-                roleClaims.Add(new Claim("roles", role));
+            var roleClaims = roles.Select(role => new Claim("roles", role)).ToList();
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("uid", user.Id)
-            }
+        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim("uid", user.Id)
+    }
             .Union(userClaims)
             .Union(roleClaims);
 
@@ -132,8 +136,9 @@ namespace Web_API.services
 
             return jwtSecurityToken;
         }
+
+
+
     }
-
-
 }
 
