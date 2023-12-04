@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj": {}
+    "C:\\Users\\htc\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj": {
+    "C:\\Users\\htc\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
+        "projectUniqueName": "C:\\Users\\htc\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
         "projectName": "Web_API",
-        "projectPath": "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
+        "projectPath": "C:\\Users\\htc\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
         "packagesPath": "C:\\Users\\htc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\htc\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\obj\\",
+        "outputPath": "C:\\Users\\htc\\source\\repos\\CareerFusion\\Web_API\\Web_API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\htc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,13 +40,49 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.12, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.0.3, )"
             }
           },
           "imports": [
