@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Configuration;
 using Web_API.helpers;
+using Web_API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +19,14 @@ builder.Services.AddSwaggerGen();
 var configuration = builder.Configuration;
 var jwtSettings = new JWT();
 configuration.GetSection("JWT").Bind(jwtSettings);
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>();
 
+//builder.Services.AddScoped<IAuthService, AuthService>();
 // Register the JWT settings in the DI container
 builder.Services.AddSingleton(jwtSettings);
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+           );
 
 var app = builder.Build();
 
