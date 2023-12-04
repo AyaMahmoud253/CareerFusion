@@ -55,7 +55,7 @@ namespace Web_API.services
                 IsAuthenticated = true,
                 Roles = new List<string> { "User" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                //Username = user.UserName
+                Username = user.Email
             };
 
 
