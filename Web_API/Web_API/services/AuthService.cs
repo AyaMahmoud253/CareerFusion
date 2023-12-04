@@ -28,8 +28,11 @@ namespace Web_API.services
         {
             if (await _userManager.FindByEmailAsync(model.Email) is not null)
                 return new AuthModel { Message = "Email is already registered!" };
+            if (await _userManager.FindByNameAsync(model.UserName) is not null)
+                return new AuthModel { Message = "Username is already registered!" };
             var user = new ApplicationUser
             {
+                UserName = model.UserName,
                 FullName = model.FullName,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
@@ -55,7 +58,7 @@ namespace Web_API.services
                 IsAuthenticated = true,
                 Roles = new List<string> { "User" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                Username = user.Email
+                UserName = user.UserName
             };
 
 
@@ -71,7 +74,7 @@ namespace Web_API.services
 
             var claims = new[]
             {
-                //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("uid", user.Id)
