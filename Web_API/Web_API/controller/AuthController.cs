@@ -27,7 +27,7 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
-            return Ok(result);
+            return Ok(new { token = result.Token,Exception=result.ExpiresOn });
         }
            
     }
