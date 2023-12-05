@@ -6,6 +6,7 @@ namespace Web_API.Models
     {
         [Required, StringLength(100)]
         public string UserName { get; set; }
+
         [Required, StringLength(100)]
         public string FullName { get; set; }
 
@@ -17,5 +18,15 @@ namespace Web_API.Models
 
         [StringLength(20)] // Define appropriate length
         public string PhoneNumber { get; set; }
+
+        public RegisterModel()
+        {
+            UserName = string.Empty;
+            FullName = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+            PhoneNumber= string.Empty;
+            // Initialize other non-nullable properties if needed
+        }
     }
 }
