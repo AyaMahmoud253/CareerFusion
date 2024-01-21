@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\compumarts\Desktop\Career</_PublishTargetUrl>
+    <History>True|2023-12-25T13:32:40.5720476Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server =LAPTOP-R18ES39G%3b DataBase=UserApp%3b Trusted_Connection=True%3b TrustServerCertificate=Yes</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="Web_API.Models.ApplicationDBContext">
+      <Value>Server =LAPTOP-R18ES39G%3b DataBase=UserApp%3b Trusted_Connection=True%3b TrustServerCertificate=Yes</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

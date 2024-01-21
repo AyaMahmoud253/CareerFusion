@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -16,15 +17,19 @@ namespace Web_API.services
     public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private IConfiguration _configuration;
+        private IMailService _mailService;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _jwt;
 
         public AuthService(
-            UserManager<ApplicationUser> userManager,
+            UserManager<ApplicationUser> userManager, IConfiguration configuration, IMailService mailService,
             RoleManager<IdentityRole> roleManager,
             IOptions<JWT> jwt)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _configuration = configuration;
+            _mailService = mailService;
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
             _jwt = jwt?.Value ?? throw new ArgumentNullException(nameof(jwt));
 
@@ -57,7 +62,14 @@ namespace Web_API.services
                 var errors = string.Join(",", result.Errors.Select(error => error.Description));
                 return new AuthModel { Message = errors };
             }
+            var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
+            var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
+            string url = $"{_configuration["AppUrl"]}/api/Auth/confirmemail?userid={user.Id}&token={validEmailToken}";
+
+            await _mailService.SendEmailAsync(user.Email, "Confirm your email", $"<h1>Welcome to Career Fusion App</h1>" +
+                    $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
             await _userManager.AddToRoleAsync(user, "User");
             var jwtSecurityToken = await CreateJwtToken(user);
 
@@ -96,6 +108,107 @@ namespace Web_API.services
 
             return authModel;
         }
+
+        public async Task<AuthModel> ConfirmEmailAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return new AuthModel
+                {
+                    IsAuthenticated = false,
+                    Message = "User not found"
+                };
+
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+            if (result.Succeeded)
+                return new AuthModel
+                {
+                    Message = "Email confirmed successfully!",
+                    IsAuthenticated = true,
+                };
+            return new AuthModel
+            {
+                IsAuthenticated = false,
+                Message = "Email did not confirm. " + string.Join(", ", result.Errors.Select(e => e.Description))
+            };
+
+
+
+
+        }
+
+        public async Task<AuthModel> ForgetPasswordAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return new AuthModel
+                {
+                    IsAuthenticated = false,
+                    Message = "No user associated with email",
+                };
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
+
+            await _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
+                $"<p>To reset your password <a href='{url}'>Click here</a></p>");
+
+            return new AuthModel
+            {
+                IsAuthenticated = true,
+                Message = "Reset password URL has been sent to the email successfully!"
+            };
+
+        }
+
+        public async Task<AuthModel> ResetPasswordAsync(ResetPasswordViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return new AuthModel
+                {
+                    IsAuthenticated = false,
+                    Message = "No user associated with email",
+                };
+
+            if (model.NewPassword != model.ConfirmPassword)
+                return new AuthModel
+                {
+                    IsAuthenticated = false,
+                    Message = "Password doesn't match its confirmation",
+                };
+
+            var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ResetPasswordAsync(user, normalToken, model.NewPassword);
+
+            if (result.Succeeded)
+                return new AuthModel
+                {
+                    Message = "Password has been reset successfully!",
+                    IsAuthenticated = true,
+                };
+
+            return new AuthModel
+            {
+                IsAuthenticated = false,
+                Message = "Something went wrong. " + string.Join(", ", result.Errors.Select(e => e.Description))
+            };
+
+
+
+
+
+
+        }
+
 
         public async Task<string> AddRoleAsync(AddRoleModel model)
         {

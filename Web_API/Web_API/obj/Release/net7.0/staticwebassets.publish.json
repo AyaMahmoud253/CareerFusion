@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "BSIepG4EGwZnVm7u9vw5Vu4yJOngdrZSFqHj3lO3R6Y=",
+  "Source": "Web_API",
+  "BasePath": "_content/Web_API",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Web_API\\wwwroot",
+      "Source": "Web_API",
+      "ContentRoot": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\",
+      "BasePath": "_content/Web_API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
+      "SourceId": "Web_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\",
+      "BasePath": "_content/Web_API",
+      "RelativePath": "confirmemail.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\confirmemail.html"
+    }
+  ]
+}

@@ -10,10 +10,13 @@ namespace Web_API.controller
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-
-        public AuthController(IAuthService authService)
+        private IMailService _mailService;
+        private IConfiguration _configuration;
+        public AuthController(IAuthService authService, IMailService mailService, IConfiguration configuration)
         {
             _authService = authService;
+            _mailService = mailService;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -41,7 +44,55 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
+            await _mailService.SendEmailAsync(model.Email, "New login", "<h1>Hey!, new login to your account noticed</h1><p>New login to your account at " + DateTime.Now + "</p>");
             return Ok("Login successfully!");
+        }
+
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+                return NotFound();
+            var result = await _authService.ConfirmEmailAsync(userId, token);
+
+            if (result.IsAuthenticated)
+            {
+                return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return NotFound();
+
+            var result = await _authService.ForgetPasswordAsync(email);
+
+            if (result.IsAuthenticated)
+                return Ok(result); // 200
+
+            return BadRequest(result); // 400
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _authService.ResetPasswordAsync(model);
+
+                if (result.IsAuthenticated)
+                    return Ok(result);
+
+                return BadRequest(result);
+
+
+            }
+            return BadRequest("Some properties are not valid");
+
         }
 
         [HttpPost("addrole")]
