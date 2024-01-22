@@ -4,9 +4,7 @@
     "\\.github",
     "\\Web_API",
     "\\Web_API\\Web_API",
-    "\\Web_API\\Web_API\\Controllers",
     "\\Web_API\\Web_API\\Properties"
   ],
-  "SelectedNode": "\\Web_API\\Web_API.sln",
   "PreviewInSolutionExplorer": false
 }

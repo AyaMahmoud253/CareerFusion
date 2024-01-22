@@ -10,6 +10,7 @@ namespace Web_API.services
         Task<AuthModel> ForgetPasswordAsync(string email);
         Task<AuthModel> ResetPasswordAsync(ResetPasswordViewModel model);
         Task<string> AddRoleAsync(AddRoleModel model);
+     
 
     }
 }

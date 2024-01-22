@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Wyz48+YUBb2j/Rwmur/HQrXCYFrkvRH1LxYyB6Zu+xE=",
+  "Hash": "QUhjgVnvFesr1AbtG2aQuCJehKbvFKXy0WfcrBECgMo=",
   "Source": "Web_API",
   "BasePath": "_content/Web_API",
   "Mode": "Default",
@@ -10,24 +10,22 @@
     {
       "Name": "Web_API\\wwwroot",
       "Source": "Web_API",
-      "ContentRoot": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusionLast\\Web_API\\Web_API\\wwwroot\\",
       "BasePath": "_content/Web_API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
+      "Identity": "C:\\Users\\htc\\Desktop\\CareerFusionLast\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
       "SourceId": "Web_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusionLast\\Web_API\\Web_API\\wwwroot\\",
       "BasePath": "_content/Web_API",
       "RelativePath": "confirmemail.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",

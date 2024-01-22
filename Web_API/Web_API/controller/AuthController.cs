@@ -30,7 +30,7 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
-            return Ok("registered successfully!");//can return result.Token
+            return Ok(result.Token);//can return result.Token
         }
 
         [HttpPost("token")]
@@ -45,7 +45,7 @@ namespace Web_API.controller
                 return BadRequest(result.Message);
 
             await _mailService.SendEmailAsync(model.Email, "New login", "<h1>Hey!, new login to your account noticed</h1><p>New login to your account at " + DateTime.Now + "</p>");
-            return Ok("Login successfully!");
+            return Ok(result.Token);
         }
 
         [HttpGet("ConfirmEmail")]

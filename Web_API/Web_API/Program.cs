@@ -23,6 +23,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
 
 
 // Add DbContext and Identity
@@ -39,6 +43,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
+
 .AddJwtBearer(o =>
 {
     o.RequireHttpsMetadata = false;
@@ -57,6 +62,8 @@ builder.Services.AddAuthentication(options =>
 
 // Add other scoped services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddTransient<IMailService, SendGridMailService>();
 builder.Services.AddRazorPages();
 var app = builder.Build();
