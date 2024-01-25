@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QUhjgVnvFesr1AbtG2aQuCJehKbvFKXy0WfcrBECgMo=",
+  "Hash": "FizyOdebuKGZcKBGE7b003LoxYSw9uqyYGp/U4/fvpw=",
   "Source": "Web_API",
   "BasePath": "_content/Web_API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Web_API\\wwwroot",
       "Source": "Web_API",
-      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusionLast\\Web_API\\Web_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\",
       "BasePath": "_content/Web_API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\htc\\Desktop\\CareerFusionLast\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
+      "Identity": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
       "SourceId": "Web_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusionLast\\Web_API\\Web_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\",
       "BasePath": "_content/Web_API",
       "RelativePath": "confirmemail.html",
       "AssetKind": "All",
@@ -32,6 +32,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\confirmemail.html"
+    },
+    {
+      "Identity": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\profile-pictures\\5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg",
+      "SourceId": "Web_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\",
+      "BasePath": "_content/Web_API",
+      "RelativePath": "profile-pictures/5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profile-pictures\\5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\profile-pictures\\f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg",
+      "SourceId": "Web_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\htc\\Desktop\\CareerFusion49\\Web_API\\Web_API\\wwwroot\\",
+      "BasePath": "_content/Web_API",
+      "RelativePath": "profile-pictures/f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profile-pictures\\f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg"
     }
   ]
 }
