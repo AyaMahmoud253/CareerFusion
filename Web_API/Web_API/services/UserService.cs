@@ -60,5 +60,40 @@ namespace Web_API.services
 
             return result.Succeeded ? string.Empty : "Failed to delete user";
         }
+
+        public async Task<string> UpdateUserAsync(string userId, UpdateUserModel model)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return "User not found";
+            }
+
+            // Update the properties only if they are provided
+            if (!string.IsNullOrWhiteSpace(model.UserName))
+            {
+                user.UserName = model.UserName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Email))
+            {
+                user.Email = model.Email;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.PhoneNumber))
+            {
+                user.PhoneNumber = model.PhoneNumber;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.FullName))
+            {
+                user.FullName = model.FullName; // Assuming FullName is a property of ApplicationUser
+            }
+
+            // Save the changes
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded ? string.Empty : "Failed to update user";
+        }
+
     }
 }

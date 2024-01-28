@@ -30,6 +30,8 @@ namespace Web_API.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+
+
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UserProfileUpdateDTO model)
         {
@@ -57,6 +59,17 @@ namespace Web_API.Controllers
             {
                 user.FollowersCount = model.FollowersCount.Value;
             }
+            if (model.Description != null)
+            {
+                user.Description = model.Description;
+            }
+            if (model.Address != null)
+            {
+                user.Address = model.Address;
+            }
+
+
+
 
             // Update the user first, to ensure it doesn't fail after modifying courses and project links
             var userUpdateResult = await _userManager.UpdateAsync(user);
@@ -89,60 +102,95 @@ namespace Web_API.Controllers
                 }
             }
 
-            // Handle ProjectLinks
+            // Handle Courses
             if (model.ProjectLinks != null)
             {
                 foreach (var projectDto in model.ProjectLinks)
                 {
-                    ProjectLink projectLink;
-                    if (projectDto.ProjectLinkId.HasValue) // Existing project link
+                    var project = await _context.ProjectLinks
+                        .FirstOrDefaultAsync(p => p.ProjectLinkId == projectDto.ProjectLinkId && p.UserId == userId);
+
+                    if (project != null)
                     {
-                        projectLink = await _context.ProjectLinks.FirstOrDefaultAsync(p => p.ProjectLinkId == projectDto.ProjectLinkId.Value && p.UserId == userId);
-                        if (projectLink != null)
-                        {
-                            projectLink.ProjectName = projectDto.ProjectName;
-                            projectLink.ProjectUrl = projectDto.ProjectUrl;
-                        }
+                        project.ProjectName = projectDto.ProjectName;
+                        project.ProjectUrl= projectDto.ProjectUrl;
+                        
                     }
-                    else // New project link
+                    else
                     {
-                        projectLink = new ProjectLink
+                        project = new ProjectLink
                         {
                             ProjectName = projectDto.ProjectName,
                             ProjectUrl = projectDto.ProjectUrl,
                             UserId = userId
                         };
-                        _context.ProjectLinks.Add(projectLink);
+                        _context.ProjectLinks.Add(project);
                     }
                 }
             }
-            // Handle Skills
+
+            
+
+
+
+            // Handle skills
             if (model.Skills != null)
             {
                 foreach (var skillDto in model.Skills)
                 {
-                    Skill skill;
-                    if (skillDto.SkillId.HasValue && skillDto.SkillId.Value != 0) // Existing skill
+                    var skill = await _context.Skills
+                        .FirstOrDefaultAsync(s => s.SkillId == skillDto.SkillId && s.UserId == userId);
+
+                    if (skill != null)
                     {
-                        skill = await _context.Skills.FirstOrDefaultAsync(s => s.SkillId == skillDto.SkillId.Value && s.UserId == userId);
-                        if (skill != null)
-                        {
-                            skill.SkillName = skillDto.SkillName;
-                            skill.SkillLevel = skillDto.SkillLevel; // Update this as needed
-                        }
+                        skill.SkillName = skillDto.SkillName;
+                        skill.SkillLevel = skillDto.SkillLevel;
+
                     }
-                    else // New skill
+                    else
                     {
                         skill = new Skill
                         {
                             SkillName = skillDto.SkillName,
-                            SkillLevel = skillDto.SkillLevel, // Set this as needed
+                            SkillLevel = skillDto.SkillLevel,
+
                             UserId = userId
                         };
                         _context.Skills.Add(skill);
                     }
                 }
             }
+
+            // Handle SiteLinks
+            if (model.SiteLinks != null)
+            {
+                foreach (var siteDto in model.SiteLinks)
+                {
+                    SiteLink siteLink;
+                    if (siteDto.LinkId.HasValue) // Existing project link
+                    {
+                        siteLink = await _context.SiteLinks.FirstOrDefaultAsync(sl => sl.LinkId == siteDto.LinkId.Value && sl.UserId == userId);
+                        if (siteLink != null)
+                        {
+                            siteLink.LinkUrl = siteDto.LinkUrl;
+                        }
+                    }
+                    else // New site link
+                    {
+                        siteLink = new SiteLink
+                        {
+
+                            LinkUrl = siteDto.LinkUrl,
+                            UserId = userId
+                        };
+                        _context.SiteLinks.Add(siteLink);
+                    }
+                }
+            }
+
+          
+
+
 
             // Save the changes to the user, courses, and project links
             await _context.SaveChangesAsync();
@@ -218,12 +266,8 @@ namespace Web_API.Controllers
                     u.Title,
                     u.ProfilePicturePath,
                     u.FollowersCount,
-                    Courses = u.Courses.Select(c => new
-                    {
-                        c.CourseId,
-                        c.CourseName
-                        // Include other properties you want to return
-                    }).ToList(),
+                    u.Description, // Add Description
+                    u.Address,     // Add Address
                     ProjectLinks = u.ProjectLinks.Select(p => new
                     {
                         p.ProjectLinkId,
@@ -231,13 +275,26 @@ namespace Web_API.Controllers
                         p.ProjectUrl
                         // Include other properties you want to return
                     }).ToList(),
+                    Courses = u.Courses.Select(c => new
+                    {
+                        c.CourseId,
+                        c.CourseName
+                        // Include other properties you want to return
+                    }).ToList(),
+                    
                     Skills = u.Skills.Select(s => new
                     {
                         s.SkillId,
                         s.SkillName,
                         s.SkillLevel
                         // Include other properties you want to return
-                    }).ToList()
+                    }).ToList(),
+                    SiteLinks = u.SiteLinks.Select(sl => new
+                    {
+                        sl.LinkId,
+                        sl.LinkUrl
+                        // Include other properties you want to return
+                    }).ToList() // Add SiteLinks
                 })
                 .FirstOrDefaultAsync();
 
@@ -274,6 +331,94 @@ namespace Web_API.Controllers
             var request = this.HttpContext.Request;
             return $"{request.Scheme}://{request.Host}{request.PathBase}{profilePicturePath}";
         }
+
+        [HttpDelete("{userId}/projectlinks/{projectLinkId}")]
+        public async Task<IActionResult> DeleteProjectLink(string userId, int projectLinkId)
+        {
+            // Find the project link by ID and ensure it belongs to the user
+            var projectLink = await _context.ProjectLinks
+                .FirstOrDefaultAsync(p => p.ProjectLinkId == projectLinkId && p.UserId == userId);
+
+            if (projectLink == null)
+            {
+                return NotFound($"Project link with ID {projectLinkId} for user ID {userId} not found.");
+            }
+
+            // Delete the project link
+            _context.ProjectLinks.Remove(projectLink);
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok($"Project link with ID {projectLinkId} has been successfully deleted from user ID {userId}'s profile.");
+        }
+
+        [HttpDelete("{userId}/courses/{courseId}")]
+        public async Task<IActionResult> DeleteCourse(string userId, int courseId)
+        {
+            // Find the course by ID and ensure it belongs to the user
+            var course = await _context.Courses
+                .FirstOrDefaultAsync(c => c.CourseId == courseId && c.UserId == userId);
+
+            if (course == null)
+            {
+                return NotFound($"Course with ID {courseId} for user ID {userId} not found.");
+            }
+
+            // Delete the course
+            _context.Courses.Remove(course);
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok($"Course with ID {courseId} has been successfully deleted from user ID {userId}'s profile.");
+        }
+
+        [HttpDelete("{userId}/skills/{skillId}")]
+        public async Task<IActionResult> DeleteSkill(string userId, int skillId)
+        {
+            // Find the skill by ID and ensure it belongs to the user
+            var skill = await _context.Skills
+                .FirstOrDefaultAsync(s => s.SkillId == skillId && s.UserId == userId);
+
+            if (skill == null)
+            {
+                return NotFound($"Skill with ID {skillId} for user ID {userId} not found.");
+            }
+
+            // Delete the skill
+            _context.Skills.Remove(skill);
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok($"Skill with ID {skillId} has been successfully deleted from user ID {userId}'s profile.");
+        }
+
+        [HttpDelete("{userId}/sitelinks/{siteLinkId}")]
+        public async Task<IActionResult> DeleteSiteLink(string userId, int siteLinkId)
+        {
+            // Find the site link by ID and ensure it belongs to the user
+            var siteLink = await _context.SiteLinks
+                .FirstOrDefaultAsync(sl => sl.LinkId == siteLinkId && sl.UserId == userId);
+
+            if (siteLink == null)
+            {
+                return NotFound($"Site link with ID {siteLinkId} for user ID {userId} not found.");
+            }
+
+            // Delete the site link
+            _context.SiteLinks.Remove(siteLink);
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok($"Site link with ID {siteLinkId} has been successfully deleted from user ID {userId}'s profile.");
+        }
+
+
+
+
 
     }
 }

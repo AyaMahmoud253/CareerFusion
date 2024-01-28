@@ -7,6 +7,7 @@ namespace Web_API.Models
         public DbSet<ProjectLink> ProjectLinks { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<SiteLink> SiteLinks { get; set; } // Add DbSet for SiteLink
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

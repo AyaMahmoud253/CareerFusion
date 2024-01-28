@@ -9,5 +9,6 @@ namespace Web_API.services
         Task<AuthModel> GetUserByIdAsync(string userId);
         Task<string> DeleteUserAsync(string userId);
         Task<IEnumerable<AuthModel>> GetAllUsersAsync();
+        Task<string> UpdateUserAsync(string userId, UpdateUserModel model);
     }
 }

@@ -57,5 +57,23 @@ namespace Web_API.Controllers
 
             return Ok("User deleted successfully");
         }
+
+        [HttpPut("updateUser/{userId}")]
+        public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Invalid user data");
+            }
+
+            var result = await _userService.UpdateUserAsync(userId, model);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                return BadRequest(result);
+            }
+
+            return Ok("User updated successfully");
+        }
     }
 }
