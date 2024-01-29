@@ -67,10 +67,19 @@ namespace Web_API.services
                 return new ServiceResult { Success = false, Message = "User is not in the HR role or not found." };
             }
 
-            // Update the timeline stage with the new values
-            timelineStage.Description = updatedStage.Description;
-            timelineStage.StartTime = updatedStage.StartTime;
-            timelineStage.EndTime = updatedStage.EndTime;
+            // Update the timeline stage with the new values only if they are provided
+            if (!string.IsNullOrWhiteSpace(updatedStage.Description))
+            {
+                timelineStage.Description = updatedStage.Description;
+            }
+            if (updatedStage.StartTime.HasValue)
+            {
+                timelineStage.StartTime = updatedStage.StartTime.Value;
+            }
+            if (updatedStage.EndTime.HasValue)
+            {
+                timelineStage.EndTime = updatedStage.EndTime.Value;
+            }
 
             // Save the changes in the database
             _context.TimelineStages.Update(timelineStage);
@@ -78,6 +87,7 @@ namespace Web_API.services
 
             return new ServiceResult { Success = true, Message = "Timeline stage updated successfully." };
         }
+
         public async Task<ServiceResult> DeleteTimelineStageAsync(string userId, int stageId)
         {
             var timelineStage = await _context.TimelineStages
