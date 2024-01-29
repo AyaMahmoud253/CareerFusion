@@ -63,6 +63,7 @@ builder.Services.AddAuthentication(options =>
 // Add other scoped services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IHiringTimelineService, HiringTimelineService>();
 
 builder.Services.AddTransient<IMailService, SendGridMailService>();
 builder.Services.AddRazorPages();

@@ -8,7 +8,7 @@ namespace Web_API.Models
         public DbSet<Course> Courses { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<SiteLink> SiteLinks { get; set; } // Add DbSet for SiteLink
-
+        public DbSet<TimelineStageEntity> TimelineStages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
