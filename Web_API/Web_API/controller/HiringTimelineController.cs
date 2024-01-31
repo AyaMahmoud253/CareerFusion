@@ -16,13 +16,14 @@ public class HiringTimelineController : ControllerBase
         _hiringTimelineService = hiringTimelineService;
     }
 
-    [HttpPost("SetTimeline")]
-    public async Task<IActionResult> SetTimeline([FromBody] SetTimelineModel model)
+    [HttpPost("SetTimeline/{userId}")]
+    public async Task<IActionResult> SetTimeline([FromRoute] string userId,[FromBody] SetTimelineModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _hiringTimelineService.SetHiringTimelineAsync(model);
+        model.UserId = userId;
+        var result = await _hiringTimelineService.SetHiringTimelineAsync(userId,model);
 
         if (!result.Success)
             return BadRequest(result.Message);
@@ -42,7 +43,7 @@ public class HiringTimelineController : ControllerBase
 
         return Ok(timelines);
     }
-    [HttpPut("UpdateTimelineStage/{stageId}")]
+    [HttpPut("UpdateTimelineStage/{userId}/{stageId}")]
     public async Task<IActionResult> UpdateTimelineStage(string userId, int stageId, [FromBody] TimelineStageModel updatedStage)
     {
         if (!ModelState.IsValid)
@@ -59,7 +60,7 @@ public class HiringTimelineController : ControllerBase
 
         return Ok(result.Message);
     }
-    [HttpDelete("DeleteTimelineStage/{stageId}")]
+    [HttpDelete("DeleteTimelineStage/{userId}/{stageId}")]
     public async Task<IActionResult> DeleteTimelineStage(string userId, int stageId)
     {
         // Assuming you want to authorize the operation and ensure the user is deleting their own timeline stage

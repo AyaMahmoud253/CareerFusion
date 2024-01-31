@@ -23,6 +23,9 @@ namespace Web_API.Models
         public virtual ICollection<ProjectLink> ?ProjectLinks { get; set; }
         public virtual ICollection<SiteLink>? SiteLinks { get; set; } // Add SiteLink collection
 
+        // Add collection of JobForms
+        public virtual ICollection<JobFormEntity>? JobForms { get; set; }
+
 
     }
 }

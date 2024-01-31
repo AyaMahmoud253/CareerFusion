@@ -26,9 +26,9 @@ namespace Web_API.services
             _userManager = userManager;
         }
 
-        public async Task<ServiceResult> SetHiringTimelineAsync(SetTimelineModel model)
+        public async Task<ServiceResult> SetHiringTimelineAsync(string userId,SetTimelineModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null || !(await _userManager.IsInRoleAsync(user, "HR")))
             {
                 return new ServiceResult { Success = false, Message = "User is not in the HR role." };
@@ -41,7 +41,7 @@ namespace Web_API.services
                     Description = stage.Description,
                     StartTime = stage.StartTime,
                     EndTime = stage.EndTime,
-                    UserId = model.UserId
+                    UserId = userId
                 };
                 _context.TimelineStages.Add(timelineStage);
             }

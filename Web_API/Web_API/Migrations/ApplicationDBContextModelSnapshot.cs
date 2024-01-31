@@ -262,6 +262,103 @@ namespace Web_API.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("Web_API.Models.JobDescriptionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("JobFormEntityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobFormEntityId");
+
+                    b.ToTable("JobDescriptions");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobFormEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("JobLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("JobForms");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobResponsibilityEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("JobFormEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Responsibility")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobFormEntityId");
+
+                    b.ToTable("JobResponsibilities");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobSkillEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("JobFormEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobFormEntityId");
+
+                    b.ToTable("JobSkills");
+                });
+
             modelBuilder.Entity("Web_API.Models.ProjectLink", b =>
                 {
                     b.Property<int>("ProjectLinkId")
@@ -429,6 +526,50 @@ namespace Web_API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Web_API.Models.JobDescriptionEntity", b =>
+                {
+                    b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
+                        .WithMany("JobDescriptions")
+                        .HasForeignKey("JobFormEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobForm");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobFormEntity", b =>
+                {
+                    b.HasOne("Web_API.Models.ApplicationUser", "User")
+                        .WithMany("JobForms")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobResponsibilityEntity", b =>
+                {
+                    b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
+                        .WithMany("JobResponsibilities")
+                        .HasForeignKey("JobFormEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobForm");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobSkillEntity", b =>
+                {
+                    b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
+                        .WithMany("JobSkills")
+                        .HasForeignKey("JobFormEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobForm");
+                });
+
             modelBuilder.Entity("Web_API.Models.ProjectLink", b =>
                 {
                     b.HasOne("Web_API.Models.ApplicationUser", "User")
@@ -477,11 +618,22 @@ namespace Web_API.Migrations
                 {
                     b.Navigation("Courses");
 
+                    b.Navigation("JobForms");
+
                     b.Navigation("ProjectLinks");
 
                     b.Navigation("SiteLinks");
 
                     b.Navigation("Skills");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobFormEntity", b =>
+                {
+                    b.Navigation("JobDescriptions");
+
+                    b.Navigation("JobResponsibilities");
+
+                    b.Navigation("JobSkills");
                 });
 #pragma warning restore 612, 618
         }

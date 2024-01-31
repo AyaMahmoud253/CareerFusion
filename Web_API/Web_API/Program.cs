@@ -9,6 +9,7 @@ using System.Text;
 using Web_API.helpers;
 using Web_API.Models;
 using Web_API.services;
+using Web_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHiringTimelineService, HiringTimelineService>();
+builder.Services.AddScoped<IJobFormService, JobFormService>();
+
 
 builder.Services.AddTransient<IMailService, SendGridMailService>();
 builder.Services.AddRazorPages();

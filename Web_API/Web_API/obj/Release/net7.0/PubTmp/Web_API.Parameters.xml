@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="IIS Web Application Name" description="" value="CareerFusion" tags="IisApp">
+  <parameter name="IIS Web Application Name" description="" value="CareerFusions" tags="IisApp">
     <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\obj\\Release\\net7\.0\\PubTmp\\Out\\$" />
   </parameter>
 </parameters>
