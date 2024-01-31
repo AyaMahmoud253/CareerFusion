@@ -4,9 +4,8 @@
     "\\.github",
     "\\Web_API",
     "\\Web_API\\Web_API",
-    "\\Web_API\\Web_API\\Migrations",
     "\\Web_API\\Web_API\\Properties"
   ],
-  "SelectedNode": "\\Web_API\\Web_API\\Migrations\\20240129200129_AddTimelineStages3.cs",
+  "SelectedNode": "\\Web_API\\Web_API\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }
