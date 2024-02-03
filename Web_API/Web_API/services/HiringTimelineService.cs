@@ -42,6 +42,7 @@ namespace Web_API.services
                     StartTime = stage.StartTime,
                     EndTime = stage.EndTime,
                     UserId = userId
+
                 };
                 _context.TimelineStages.Add(timelineStage);
             }
@@ -126,6 +127,7 @@ namespace Web_API.services
             // Convert entities to models
             var timelineStagesModels = timelineStagesEntities.Select(ts => new TimelineStageModel
             {
+                StageId = ts.Id,
                 Description = ts.Description,
                 StartTime = ts.StartTime,
                 EndTime = ts.EndTime

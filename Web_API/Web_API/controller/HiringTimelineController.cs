@@ -30,6 +30,7 @@ public class HiringTimelineController : ControllerBase
 
         return Ok(result.Message);
     }
+   
     [HttpGet("GetTimelinesForUser/{userId}")]
     public async Task<IActionResult> GetTimelinesForUser(string userId)
     {
@@ -41,8 +42,10 @@ public class HiringTimelineController : ControllerBase
         if (timelines == null || !timelines.Any())
             return NotFound($"No timelines found for user with ID {userId}.");
 
+        // Assuming `timelines` is a collection of `TimelineStageModel` or similar
         return Ok(timelines);
     }
+
     [HttpPut("UpdateTimelineStage/{userId}/{stageId}")]
     public async Task<IActionResult> UpdateTimelineStage(string userId, int stageId, [FromBody] TimelineStageModel updatedStage)
     {

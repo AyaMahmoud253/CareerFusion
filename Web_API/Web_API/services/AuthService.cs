@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -81,10 +82,12 @@ namespace Web_API.services
                 IsAuthenticated = true,
                 Roles = new List<string> { "User" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                UserName = user.UserName
+                UserName = user.UserName,
+                UserId = user.Id
             };
         }
 
+        
         public async Task<AuthModel> GetTokenAsync(TokenRequestModel model)
         {
             var authModel = new AuthModel();
@@ -106,10 +109,10 @@ namespace Web_API.services
             authModel.UserName = user.UserName;
             authModel.ExpiresOn = jwtSecurityToken.ValidTo;
             authModel.Roles = rolesList.ToList();
+            authModel.UserId = user.Id;
 
             return authModel;
         }
-
         public async Task<AuthModel> ConfirmEmailAsync(string userId, string token)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -260,6 +263,7 @@ namespace Web_API.services
 
             return jwtSecurityToken;
         }
+
        
 
 

@@ -19,7 +19,6 @@ namespace Web_API.Services
 
         public async Task<ServiceResult> AddJobFormAsync(string userId, JobFormModel model)
         {
-            // Check if the provided userId is valid and belongs to a user in the HR role
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null || !(await _userManager.IsInRoleAsync(user, "HR")))
             {
@@ -31,68 +30,67 @@ namespace Web_API.Services
                 JobTitle = model.JobTitle,
                 JobType = model.JobType,
                 JobLocation = model.JobLocation,
-                UserId = userId // Use the provided userId
-                                // Map other job form properties as needed
+                UserId = userId
             };
 
-            // Add Job Form to the context and save changes to get the generated Id
             _context.JobForms.Add(jobForm);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // Save initially to generate JobForm ID
 
-            // Now use the generated Id for setting foreign keys in related entities
+            var skillIds = new List<int>();
+            var descriptionIds = new List<int>();
+            var responsibilityIds = new List<int>();
 
             // Add Job Skills
             if (model.JobSkills != null)
             {
-                foreach (var skillModel in model.JobSkills)
+                foreach (var skill in model.JobSkills)
                 {
-                    var jobSkill = new JobSkillEntity
-                    {
-                        SkillName = skillModel.SkillName,
-                        JobFormEntityId = jobForm.Id
-                        // Map other job skill properties as needed
-                    };
-
-                    _context.JobSkills.Add(jobSkill); // Add directly to the context
+                    var jobSkill = new JobSkillEntity { SkillName = skill.SkillName, JobFormEntityId = jobForm.Id };
+                    _context.JobSkills.Add(jobSkill);
                 }
+                await _context.SaveChangesAsync(); // Save to generate Skill IDs
+                skillIds.AddRange(jobForm.JobSkills.Select(js => js.Id)); // Collect Skill IDs
             }
 
             // Add Job Descriptions
             if (model.JobDescriptions != null)
             {
-                foreach (var descriptionModel in model.JobDescriptions)
+                foreach (var description in model.JobDescriptions)
                 {
-                    var jobDescription = new JobDescriptionEntity
-                    {
-                        Description = descriptionModel.Description,
-                        JobFormEntityId = jobForm.Id
-                        // Map other job description properties as needed
-                    };
-
-                    _context.JobDescriptions.Add(jobDescription); // Add directly to the context
+                    var jobDescription = new JobDescriptionEntity { Description = description.Description, JobFormEntityId = jobForm.Id };
+                    _context.JobDescriptions.Add(jobDescription);
                 }
+                await _context.SaveChangesAsync(); // Save to generate Description IDs
+                descriptionIds.AddRange(jobForm.JobDescriptions.Select(jd => jd.Id)); // Collect Description IDs
             }
 
             // Add Job Responsibilities
             if (model.JobResponsibilities != null)
             {
-                foreach (var responsibilityModel in model.JobResponsibilities)
+                foreach (var responsibility in model.JobResponsibilities)
                 {
-                    var jobResponsibility = new JobResponsibilityEntity
-                    {
-                        Responsibility = responsibilityModel.Responsibility,
-                        JobFormEntityId = jobForm.Id
-                        // Map other job responsibility properties as needed
-                    };
-
-                    _context.JobResponsibilities.Add(jobResponsibility); // Add directly to the context
+                    var jobResponsibility = new JobResponsibilityEntity { Responsibility = responsibility.Responsibility, JobFormEntityId = jobForm.Id };
+                    _context.JobResponsibilities.Add(jobResponsibility);
                 }
+                await _context.SaveChangesAsync(); // Save to generate Responsibility IDs
+                responsibilityIds.AddRange(jobForm.JobResponsibilities.Select(jr => jr.Id)); // Collect Responsibility IDs
             }
 
-            await _context.SaveChangesAsync(); // Save changes after adding related entities
-
-            return new ServiceResult { Success = true, Message = "Job form added successfully." };
+            // Return Success with all IDs
+            return new ServiceResult
+            {
+                Success = true,
+                Message = "Job form and related entities added successfully.",
+                Payload = new
+                {
+                    JobId = jobForm.Id,
+                    SkillIds = skillIds,
+                    DescriptionIds = descriptionIds,
+                    ResponsibilityIds = responsibilityIds
+                }
+            };
         }
+
         public async Task<IEnumerable<JobFormModel>> GetJobsByUserIdAsync(string userId)
         {
             // Check if the user exists in the system

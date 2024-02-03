@@ -30,8 +30,10 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
-            return Ok(result.Token);//can return result.Token
+            // Include both token and user ID in the response
+            return Ok(new { Token = result.Token, UserId = result.UserId });
         }
+
 
         [HttpPost("token")]
         public async Task<IActionResult> GetTokenAsync([FromBody] TokenRequestModel model)
@@ -44,9 +46,13 @@ namespace Web_API.controller
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
-            await _mailService.SendEmailAsync(model.Email, "New login", "<h1>Hey!, new login to your account noticed</h1><p>New login to your account at " + DateTime.Now + "</p>");
-            return Ok(result.Token);
+            // Send an email notification about the new login
+            await _mailService.SendEmailAsync(model.Email, "New login", $"<h1>Hey!, new login to your account noticed</h1><p>New login to your account at {DateTime.Now}</p>");
+
+            // Include both token and user ID in the response
+            return Ok(new { Token = result.Token, UserId = result.UserId });
         }
+
 
         [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
