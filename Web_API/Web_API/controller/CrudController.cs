@@ -45,6 +45,19 @@ namespace Web_API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{userId}/roles")]
+        public async Task<IActionResult> GetUserRoles(string userId)
+        {
+            var userWithRoles = await _userService.GetUserWithRolesAsync(userId);
+
+            if (userWithRoles == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(userWithRoles);
+        }
+
         [HttpDelete("userDel/{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {

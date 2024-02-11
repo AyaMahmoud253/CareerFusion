@@ -10,5 +10,7 @@
         public string? Token { get; set; }
         public DateTime ExpiresOn { get; set; }
         public string? UserId { get; set; }
+        public string? PhoneNumber { get; set; } // Added PhoneNumber property
+        public string? FullName { get; set; } // Added FullName property
     }
 }
