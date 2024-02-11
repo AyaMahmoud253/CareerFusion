@@ -415,6 +415,28 @@ namespace Web_API.Controllers
 
             return Ok($"Site link with ID {siteLinkId} has been successfully deleted from user ID {userId}'s profile.");
         }
+        [HttpGet("download-cv")]
+        public IActionResult DownloadCv()
+        {
+            // Define the path to the file
+            var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "CV.docx");
+
+            // Check if the file exists
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("The requested file does not exist on the server.");
+            }
+
+            // Determine the content type (MIME type)
+            var contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+            // Get the file's name for the Content-Disposition header
+            var fileName = Path.GetFileName(filePath);
+
+            // Return the file as a download
+            return PhysicalFile(filePath, contentType, fileName);
+        }
+
 
 
 
