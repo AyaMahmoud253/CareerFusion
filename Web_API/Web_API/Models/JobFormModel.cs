@@ -2,6 +2,7 @@
 {
     public class JobFormModel
     {
+        public int JobId { get; set; }
         public string? JobTitle { get; set; }
         public string? JobType { get; set; }
         public string? JobLocation { get; set; }

@@ -101,15 +101,16 @@ namespace Web_API.Services
                 return Enumerable.Empty<JobFormModel>();
             }
 
-            // Query the JobForms table to retrieve only the specified columns for the given UserId
+            // Query the JobForms table to retrieve the specified columns for the given UserId, including JobId
             var jobForms = await _context.JobForms
                 .Where(jf => jf.UserId == userId)
                 .Select(jf => new JobFormModel
                 {
+                    JobId = jf.Id, // Include the JobId in the selection
                     JobTitle = jf.JobTitle,
                     JobType = jf.JobType,
                     JobLocation = jf.JobLocation,
-                   // UserId = jf.UserId  // Include if you want to return the UserId as well
+                    UserId = jf.UserId  // Now including UserId as well
                 })
                 .ToListAsync();  // Execute the query and convert the result to a List
 
@@ -128,16 +129,19 @@ namespace Web_API.Services
                     UserId = jf.UserId,
                     JobSkills = jf.JobSkills.Select(js => new JobSkillModel
                     {
+                        Id = js.Id, // Include SkillId
                         SkillName = js.SkillName,
                         // Map other properties of JobSkill to JobSkillModel
                     }).ToList(),
                     JobDescriptions = jf.JobDescriptions.Select(jd => new JobDescriptionModel
                     {
+                        Id = jd.Id, // Include DescriptionId
                         Description = jd.Description,
                         // Map other properties of JobDescription to JobDescriptionModel
                     }).ToList(),
                     JobResponsibilities = jf.JobResponsibilities.Select(jr => new JobResponsibilityModel
                     {
+                        Id = jr.Id,
                         Responsibility = jr.Responsibility,
                         // Map other properties of JobResponsibility to JobResponsibilityModel
                     }).ToList(),
