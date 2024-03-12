@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "SfU5nVMfhrw1cu5H8xQjcCZSkUHTaeVv3JCnU55Ot5I=",
+  "Hash": "s98iDPmeeySl8l0sagOOveqVVZ8u0gr4AcyjV1aVz1I=",
   "Source": "Web_API",
   "BasePath": "_content/Web_API",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\profile-pictures\\92db6f43-517a-4d93-906b-58fec451af41_photo_2023-08-24_19-24-35.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\9f78e9aa-f0ba-4267-91ec-1073fe971fd5_Screenshot 2023-11-02 125302.png",
+      "SourceId": "Web_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\",
+      "BasePath": "_content/Web_API",
+      "RelativePath": "profile-pictures/9f78e9aa-f0ba-4267-91ec-1073fe971fd5_Screenshot 2023-11-02 125302.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profile-pictures\\9f78e9aa-f0ba-4267-91ec-1073fe971fd5_Screenshot 2023-11-02 125302.png"
     },
     {
       "Identity": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg",
