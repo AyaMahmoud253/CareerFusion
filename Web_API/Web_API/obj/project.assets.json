@@ -11874,19 +11874,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\compumarts\\.nuget\\packages\\": {}
+    "C:\\Users\\laptop\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
+      "projectUniqueName": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion5\\Web_API\\Web_API\\Web_API.csproj",
       "projectName": "Web_API",
-      "projectPath": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
-      "packagesPath": "C:\\Users\\compumarts\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\obj\\",
+      "projectPath": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion5\\Web_API\\Web_API\\Web_API.csproj",
+      "packagesPath": "C:\\Users\\laptop\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion5\\Web_API\\Web_API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\compumarts\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\laptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11972,6 +11972,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.15, 7.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[7.0.15, 7.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.15, 7.0.15]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[7.0.15, 7.0.15]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -11980,7 +11998,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   },

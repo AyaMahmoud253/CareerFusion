@@ -415,28 +415,55 @@ namespace Web_API.Controllers
 
             return Ok($"Site link with ID {siteLinkId} has been successfully deleted from user ID {userId}'s profile.");
         }
-        [HttpGet("download-cv")]
-        public IActionResult DownloadCv()
+        [HttpPost("upload-file")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            // Define the path to the file
-            var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "CV.docx");
-
-            // Check if the file exists
-            if (!System.IO.File.Exists(filePath))
+            if (file != null && file.Length > 0)
             {
-                return NotFound("The requested file does not exist on the server.");
+                try
+                {
+                    // Specify the directory within wwwroot where you want to save the file
+                    string uploadDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+
+                    // Ensure the directory exists; create it if it doesn't
+                    Directory.CreateDirectory(uploadDirectory);
+
+                    // Combine the directory and filename to get the full path
+                    string filePath = Path.Combine(uploadDirectory, "CV.docx");
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    return Ok("File uploaded successfully.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest($"Error: {ex.Message}");
+                }
             }
 
-            // Determine the content type (MIME type)
-            var contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-
-            // Get the file's name for the Content-Disposition header
-            var fileName = Path.GetFileName(filePath);
-
-            // Return the file as a download
-            return PhysicalFile(filePath, contentType, fileName);
+            return BadRequest("No file uploaded");
         }
+        [HttpGet("download-file")]
+        public IActionResult DownloadFile()
+        {
+            // Define the path to the file within wwwroot
+            var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", "CV.docx");
 
+            // Check if the file exists
+            if (System.IO.File.Exists(filePath))
+            {
+                // Determine the content type (MIME type)
+                var contentType = "application/octet-stream"; // Adjust based on your file type
+
+                // Return the file as a download
+                return PhysicalFile(filePath, contentType, "CV.docx");
+            }
+
+            return NotFound("The requested file does not exist on the server.");
+        }
 
 
 

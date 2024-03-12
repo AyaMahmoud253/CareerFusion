@@ -4,9 +4,8 @@
     "\\.github",
     "\\Web_API",
     "\\Web_API\\Web_API",
-    "\\Web_API\\Web_API\\Properties",
-    "\\Web_API\\Web_API\\services"
+    "\\Web_API\\Web_API\\controller"
   ],
-  "SelectedNode": "\\Web_API\\Web_API\\services\\JobFormService.cs",
+  "SelectedNode": "\\Web_API\\Web_API\\controller\\CrudController.cs",
   "PreviewInSolutionExplorer": false
 }
