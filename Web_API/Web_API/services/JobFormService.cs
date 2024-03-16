@@ -345,8 +345,15 @@ namespace Web_API.Services
                 return new ServiceResult { Success = false, Message = $"An error occurred: {ex.Message}" };
             }
         }
+        /*public async Task<IEnumerable<JobFormEntity>> GetAllJobFormsAsync()
+        {
+            // Retrieve all job forms from the database
+            var jobForms = await _context.JobForms.ToListAsync();
 
-       
+            return jobForms;
+        }*/
+
+
 
 
 

@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\profile-pictures\\f6996bda-8028-453f-968d-f51529c24781_357774be3e345693b7e0693e83712be1-removebg-preview.png"
     },
     {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion5\\Web_API\\Web_API\\wwwroot\\uploads\\CV.docx",
+      "PackagePath": "staticwebassets\\uploads\\CV.docx"
+    },
+    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Web_API.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

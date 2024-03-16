@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HjRFOzeryL6JDMibeAkgGLy8rBq9DuQcKnH08zTsSg4=",
+  "Hash": "j4z1m2O1FkTEC1YCiGdXzcCTCROqW/eJoPbeQ6YsXk8=",
   "Source": "Web_API",
   "BasePath": "_content/Web_API",
   "Mode": "Default",
@@ -167,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\profile-pictures\\f6996bda-8028-453f-968d-f51529c24781_357774be3e345693b7e0693e83712be1-removebg-preview.png"
+    },
+    {
+      "Identity": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion5\\Web_API\\Web_API\\wwwroot\\uploads\\CV.docx",
+      "SourceId": "Web_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion5\\Web_API\\Web_API\\wwwroot\\",
+      "BasePath": "_content/Web_API",
+      "RelativePath": "uploads/CV.docx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\CV.docx"
     }
   ]
 }

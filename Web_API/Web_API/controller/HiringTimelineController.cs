@@ -4,6 +4,7 @@ using Web_API.services;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Web_API.Services;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -11,26 +12,30 @@ public class HiringTimelineController : ControllerBase
 {
     private readonly IHiringTimelineService _hiringTimelineService;
 
-    public HiringTimelineController(IHiringTimelineService hiringTimelineService)
+    private readonly IJobFormService _jobFormService;
+
+
+    public HiringTimelineController(IHiringTimelineService hiringTimelineService, IJobFormService jobFormService)
     {
         _hiringTimelineService = hiringTimelineService;
+        _jobFormService = jobFormService;
     }
 
     [HttpPost("SetTimeline/{userId}")]
-    public async Task<IActionResult> SetTimeline([FromRoute] string userId,[FromBody] SetTimelineModel model)
+    public async Task<IActionResult> SetTimeline([FromRoute] string userId, [FromBody] SetTimelineModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
         model.UserId = userId;
-        var result = await _hiringTimelineService.SetHiringTimelineAsync(userId,model);
+        var result = await _hiringTimelineService.SetHiringTimelineAsync(userId, model);
 
         if (!result.Success)
             return BadRequest(result.Message);
 
         return Ok(result.Message);
     }
-   
+
     [HttpGet("GetTimelinesForUser/{userId}")]
     public async Task<IActionResult> GetTimelinesForUser(string userId)
     {
@@ -84,5 +89,7 @@ public class HiringTimelineController : ControllerBase
 
         return Ok(result.Message);
     }
+  
+
 }
 

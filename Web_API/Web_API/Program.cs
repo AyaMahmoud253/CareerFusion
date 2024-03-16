@@ -66,6 +66,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHiringTimelineService, HiringTimelineService>();
 builder.Services.AddScoped<IJobFormService, JobFormService>();
+builder.Services.AddScoped<IJobSearchService, JobSearchService>();
+
 
 
 builder.Services.AddTransient<IMailService, SendGridMailService>();
