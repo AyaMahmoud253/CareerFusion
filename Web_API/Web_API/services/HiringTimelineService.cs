@@ -1,113 +1,141 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Web_API.Models;
-using Web_API.services;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Web_API.Services;
+using Web_API.helpers;
+using Web_API.Models;
 
-[Route("api/[controller]")]
-[ApiController]
-public class HiringTimelineController : ControllerBase
+namespace Web_API.services
 {
-    private readonly IHiringTimelineService _hiringTimelineService;
-
-    private readonly IJobFormService _jobFormService;
-
-
-    public HiringTimelineController(IHiringTimelineService hiringTimelineService, IJobFormService jobFormService)
+    public class HiringTimelineService : IHiringTimelineService
     {
-        _hiringTimelineService = hiringTimelineService;
-        _jobFormService = jobFormService;
-    }
+        private readonly ApplicationDBContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-    [HttpPost("SetTimeline/{userId}")]
-    public async Task<IActionResult> SetTimeline([FromRoute] string userId, [FromBody] SetTimelineModel model)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
-        model.UserId = userId;
-        var result = await _hiringTimelineService.SetHiringTimelineAsync(userId, model);
-
-        if (!result.Success)
-            return BadRequest(result.Message);
-
-        return Ok(result.Message);
-    }
-
-    [HttpGet("GetTimelinesForUser/{userId}")]
-    public async Task<IActionResult> GetTimelinesForUser(string userId)
-    {
-        if (string.IsNullOrWhiteSpace(userId))
-            return BadRequest("User ID is required.");
-
-        var timelines = await _hiringTimelineService.GetTimelinesForUserAsync(userId);
-
-        if (timelines == null || !timelines.Any())
-            return NotFound($"No timelines found for user with ID {userId}.");
-
-        // Assuming `timelines` is a collection of `TimelineStageModel` or similar
-        return Ok(timelines);
-    }
-
-    [HttpPut("UpdateTimelineStage/{userId}/{stageId}")]
-    public async Task<IActionResult> UpdateTimelineStage(string userId, int stageId, [FromBody] TimelineStageModel updatedStage)
-    {
-        if (!ModelState.IsValid)
+        public HiringTimelineService(ApplicationDBContext context, UserManager<ApplicationUser> userManager)
         {
-            return BadRequest(ModelState);
+            _context = context;
+            _userManager = userManager;
         }
 
-        var result = await _hiringTimelineService.UpdateTimelineStageAsync(userId, stageId, updatedStage);
-
-        if (!result.Success)
+        public async Task<ServiceResult> SetHiringTimelineAsync(string userId, SetTimelineModel model)
         {
-            return BadRequest(result.Message);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null || !(await _userManager.IsInRoleAsync(user, "HR")))
+            {
+                return new ServiceResult { Success = false, Message = "User is not in the HR role." };
+            }
+
+            foreach (var stage in model.Stages)
+            {
+                var timelineStage = new TimelineStageEntity
+                {
+                    Description = stage.Description,
+                    StartTime = stage.StartTime,
+                    EndTime = stage.EndTime,
+                    UserId = userId
+
+                };
+                _context.TimelineStages.Add(timelineStage);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult { Success = true, Message = "Timeline set successfully." };
+        }
+        public async Task<ServiceResult> UpdateTimelineStageAsync(string userId, int stageId, TimelineStageModel updatedStage)
+        {
+            var timelineStage = await _context.TimelineStages
+                .FirstOrDefaultAsync(ts => ts.Id == stageId && ts.UserId == userId);
+
+            if (timelineStage == null)
+            {
+                return new ServiceResult { Success = false, Message = "Timeline stage not found or user not authorized to update this timeline stage." };
+            }
+
+            // Optionally, ensure that the user is allowed to update the timeline stage
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null || !(await _userManager.IsInRoleAsync(user, "HR")))
+            {
+                return new ServiceResult { Success = false, Message = "User is not in the HR role or not found." };
+            }
+
+            // Update the timeline stage with the new values only if they are provided
+            if (!string.IsNullOrWhiteSpace(updatedStage.Description))
+            {
+                timelineStage.Description = updatedStage.Description;
+            }
+            if (updatedStage.StartTime.HasValue)
+            {
+                timelineStage.StartTime = updatedStage.StartTime.Value;
+            }
+            if (updatedStage.EndTime.HasValue)
+            {
+                timelineStage.EndTime = updatedStage.EndTime.Value;
+            }
+
+            // Save the changes in the database
+            _context.TimelineStages.Update(timelineStage);
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult { Success = true, Message = "Timeline stage updated successfully." };
         }
 
-        return Ok(result.Message);
+        public async Task<ServiceResult> DeleteTimelineStageAsync(string userId, int stageId)
+        {
+            var timelineStage = await _context.TimelineStages
+                .FirstOrDefaultAsync(ts => ts.Id == stageId && ts.UserId == userId);
+
+            if (timelineStage == null)
+            {
+                return new ServiceResult { Success = false, Message = "Timeline stage not found or user not authorized to delete this timeline stage." };
+            }
+
+            _context.TimelineStages.Remove(timelineStage);
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult { Success = true, Message = "Timeline stage deleted successfully." };
+        }
+        public async Task<IEnumerable<TimelineStageModel>> GetTimelinesForUserAsync(string userId)
+        {
+            // Retrieve the stages from the database
+            var timelineStagesEntities = await _context.TimelineStages
+                .Where(ts => ts.UserId == userId)
+                .ToListAsync();
+
+            // Check each retrieved entity before converting to model
+            foreach (var stageEntity in timelineStagesEntities)
+            {
+                if (stageEntity.Description == null ||
+                    stageEntity.StartTime == DateTime.MinValue ||
+                    stageEntity.EndTime == DateTime.MinValue)
+                {
+                    // Log the error or handle the case where the data is not as expected
+                    // For example, you might throw an exception or continue
+                    throw new InvalidOperationException("Invalid timeline stage data.");
+                }
+            }
+
+            // Convert entities to models
+            var timelineStagesModels = timelineStagesEntities.Select(ts => new TimelineStageModel
+            {
+                StageId = ts.Id,
+                Description = ts.Description,
+                StartTime = ts.StartTime,
+                EndTime = ts.EndTime
+            }).ToList();
+
+            return timelineStagesModels;
+        }
+
     }
-    [HttpDelete("DeleteTimelineStage/{userId}/{stageId}")]
-    public async Task<IActionResult> DeleteTimelineStage(string userId, int stageId)
-    {
-        // Assuming you want to authorize the operation and ensure the user is deleting their own timeline stage
-        // You may get the userId from the User claims if using JWT or other authentication mechanisms
-        // var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (string.IsNullOrEmpty(userId))
-        {
-            return BadRequest("User ID is required.");
-        }
-
-        var result = await _hiringTimelineService.DeleteTimelineStageAsync(userId, stageId);
-
-        if (!result.Success)
-        {
-            return BadRequest(result.Message);
-        }
-
-        return Ok(result.Message);
-    }
-    [HttpGet("Search")]
-    public async Task<ActionResult<IEnumerable<JobFormEntity>>> SearchOpenPositions(string keyword, string location)
-    {
-        // Query the database using EF Core to search for open positions
-        var openPositions = await _jobFormService.GetAllJobFormsAsync();
-
-        // Apply search filters based on keyword and location
-        if (!string.IsNullOrWhiteSpace(keyword))
-        {
-            openPositions = openPositions.Where(p => p.JobTitle.Contains(keyword));
-        }
-
-        if (!string.IsNullOrWhiteSpace(location))
-        {
-            openPositions = openPositions.Where(p => p.JobLocation.Contains(location));
-        }
-
-        // Return the filtered list of open positions
-        return Ok(openPositions);
-    }
 }
-
