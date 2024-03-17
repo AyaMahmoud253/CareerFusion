@@ -14,6 +14,8 @@ namespace Web_API.Models
         public DbSet<JobSkillEntity> JobSkills { get; set; } // Add DbSet for JobSkillEntity
         public DbSet<JobDescriptionEntity> JobDescriptions { get; set; } // Add DbSet for JobDescriptionEntity
         public DbSet<JobResponsibilityEntity> JobResponsibilities { get; set; } // Add DbSet for JobResponsibilityEntity
+        public DbSet<JobFormCV> JobFormCVs { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

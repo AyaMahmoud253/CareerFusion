@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\confirmemail.html"
     },
     {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion6\\Web_API\\Web_API\\wwwroot\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion6\\Web_API\\Web_API\\wwwroot\\cv-uploads\\a9e5df0a-e5a3-40e7-8b39-7b9de552b0e0_CV.pdf",
+      "PackagePath": "staticwebassets\\cv-uploads\\a9e5df0a-e5a3-40e7-8b39-7b9de552b0e0_CV.pdf"
+    },
+    {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusion6\\Web_API\\Web_API\\wwwroot\\profile-pictures\\0822dbfc-5706-4937-b8ff-78acb952feb7_Screenshot 2023-11-02 130459.png",
       "PackagePath": "staticwebassets\\profile-pictures\\0822dbfc-5706-4937-b8ff-78acb952feb7_Screenshot 2023-11-02 130459.png"
     },

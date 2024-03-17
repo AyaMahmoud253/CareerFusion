@@ -30,5 +30,7 @@ namespace Web_API.Models
 
         // New collection for Job Responsibilities
         public virtual ICollection<JobResponsibilityEntity> JobResponsibilities { get; set; }
+        // Collection for storing CVs associated with job forms
+        public virtual ICollection<JobFormCV> JobFormCVs { get; set; }
     }
 }
