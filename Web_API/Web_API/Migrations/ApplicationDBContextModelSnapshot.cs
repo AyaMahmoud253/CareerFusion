@@ -381,6 +381,98 @@ namespace Web_API.Migrations
                     b.ToTable("JobSkills");
                 });
 
+            modelBuilder.Entity("Web_API.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Web_API.Models.PostCV", b =>
+                {
+                    b.Property<int>("PostCVId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostCVId"));
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostCVId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostCVs");
+                });
+
+            modelBuilder.Entity("Web_API.Models.PostFile", b =>
+                {
+                    b.Property<int>("PostFileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostFileId"));
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostFileId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostFiles");
+                });
+
+            modelBuilder.Entity("Web_API.Models.PostPicture", b =>
+                {
+                    b.Property<int>("PostPictureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostPictureId"));
+
+                    b.Property<string>("PicturePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostPictureId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PicturePosts");
+                });
+
             modelBuilder.Entity("Web_API.Models.ProjectLink", b =>
                 {
                     b.Property<int>("ProjectLinkId")
@@ -601,6 +693,50 @@ namespace Web_API.Migrations
                         .IsRequired();
 
                     b.Navigation("JobForm");
+                });
+
+            modelBuilder.Entity("Web_API.Models.Post", b =>
+                {
+                    b.HasOne("Web_API.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Web_API.Models.PostCV", b =>
+                {
+                    b.HasOne("Web_API.Models.Post", "UploadedPost")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UploadedPost");
+                });
+
+            modelBuilder.Entity("Web_API.Models.PostFile", b =>
+                {
+                    b.HasOne("Web_API.Models.Post", "UploadedPost")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UploadedPost");
+                });
+
+            modelBuilder.Entity("Web_API.Models.PostPicture", b =>
+                {
+                    b.HasOne("Web_API.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Web_API.Models.ProjectLink", b =>

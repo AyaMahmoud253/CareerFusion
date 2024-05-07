@@ -15,6 +15,11 @@ namespace Web_API.Models
         public DbSet<JobDescriptionEntity> JobDescriptions { get; set; } // Add DbSet for JobDescriptionEntity
         public DbSet<JobResponsibilityEntity> JobResponsibilities { get; set; } // Add DbSet for JobResponsibilityEntity
         public DbSet<JobFormCV> JobFormCVs { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostPicture> PicturePosts { get; set; }
+        public DbSet<PostCV> PostCVs { get; set; }
+
+        public DbSet<PostFile> PostFiles { get; set; } // Add this DbSet for the new model
 
 
 

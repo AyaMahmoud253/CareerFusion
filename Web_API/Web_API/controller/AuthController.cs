@@ -49,8 +49,13 @@ namespace Web_API.controller
             // Send an email notification about the new login
             await _mailService.SendEmailAsync(model.Email, "New login", $"<h1>Hey!, new login to your account noticed</h1><p>New login to your account at {DateTime.Now}</p>");
 
-            // Include both token and user ID in the response
-            return Ok(new { Token = result.Token, UserId = result.UserId });
+            // Include token, user ID, and roles in the response
+            return Ok(new
+            {
+                Token = result.Token,
+                UserId = result.UserId,
+                Roles = result.Roles // Include roles
+            });
         }
 
 

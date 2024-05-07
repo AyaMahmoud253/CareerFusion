@@ -67,6 +67,12 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHiringTimelineService, HiringTimelineService>();
 builder.Services.AddScoped<IJobFormService, JobFormService>();
 builder.Services.AddScoped<IJobSearchService, JobSearchService>();
+builder.Services.AddScoped<IJobFormCVService, JobFormCVService>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+builder.Services.AddScoped<IPictureUploadService, PictureUploadService>();
+builder.Services.AddScoped<ICVUploadService, CVUploadService>();
+
 
 
 
