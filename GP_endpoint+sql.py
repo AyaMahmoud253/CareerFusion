@@ -6,11 +6,15 @@ import pyodbc
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import spacy
 
 # Download NLTK resources
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
+
+# Load SpaCy model
+nlp = spacy.load("en_core_web_md")
 
 # Establish a connection to SQL Server
 conn_str = (
@@ -83,6 +87,10 @@ app = Flask(__name__)
 def recommend_jobs(user_id):
     # Fetch user's information from the DataFrame
     user_data = users[users['Id'] == user_id].iloc[0]
+
+    # Check if the user has all the required skills for the job
+    if 'CombinedSkills' not in user_data:
+        return jsonify({'message': 'User has no skills'}), 400
 
     # Generate user description from user's title and skills
     user_text = preprocess_text(f"{user_data['Title']} {user_data['CombinedSkills']} {user_data['Address']}")
