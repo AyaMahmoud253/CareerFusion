@@ -19,9 +19,24 @@ namespace Web_API.Services
             _userManager = userManager;
         }
 
-        public async Task<IEnumerable<Post>> GetPostsAsync()
+        public async Task<IEnumerable<PostWithUserDetailsDto>> GetPostsAsync()
         {
-            return await _context.Posts.ToListAsync();
+            var posts = await _context.Posts
+                .Include(p => p.User) // Ensure the User entity is included
+                .ToListAsync();
+
+            var postDtos = posts.Select(post => new PostWithUserDetailsDto
+            {
+                PostId = post.PostId,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                UserId = post.User.Id,
+                UserFullName = post.User.FullName,
+                UserEmail = post.User.Email,
+                UserProfilePicturePath = post.User.ProfilePicturePath
+            });
+
+            return postDtos;
         }
         public async Task<Post> GetPostByIdAsync(int postId)
         {

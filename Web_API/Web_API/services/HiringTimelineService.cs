@@ -41,6 +41,7 @@ namespace Web_API.services
                     Description = stage.Description,
                     StartTime = stage.StartTime,
                     EndTime = stage.EndTime,
+                    Status = stage.Status, // Set the status
                     UserId = userId
 
                 };
@@ -81,6 +82,8 @@ namespace Web_API.services
             {
                 timelineStage.EndTime = updatedStage.EndTime.Value;
             }
+            timelineStage.Status = updatedStage.Status; // Update the status
+
 
             // Save the changes in the database
             _context.TimelineStages.Update(timelineStage);
@@ -130,7 +133,8 @@ namespace Web_API.services
                 StageId = ts.Id,
                 Description = ts.Description,
                 StartTime = ts.StartTime,
-                EndTime = ts.EndTime
+                EndTime = ts.EndTime,
+                Status = ts.Status // Include the status
             }).ToList();
 
             return timelineStagesModels;

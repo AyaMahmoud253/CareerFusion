@@ -6,7 +6,7 @@ namespace Web_API.Services
 {
     public interface IPostService
     {
-        Task<IEnumerable<Post>> GetPostsAsync();
+        Task<IEnumerable<PostWithUserDetailsDto>> GetPostsAsync();
         Task<Post> GetPostByIdAsync(int postId);
         Task<IEnumerable<Post>> GetPostsByUserIdAsync(string userId); // New method
 

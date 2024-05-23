@@ -259,7 +259,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.JobDescriptionEntity", b =>
@@ -281,7 +281,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("JobFormEntityId");
 
-                    b.ToTable("JobDescriptions");
+                    b.ToTable("JobDescriptions", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.JobFormCV", b =>
@@ -303,7 +303,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("JobFormId");
 
-                    b.ToTable("JobFormCVs");
+                    b.ToTable("JobFormCVs", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.JobFormEntity", b =>
@@ -334,7 +334,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JobForms");
+                    b.ToTable("JobForms", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.JobResponsibilityEntity", b =>
@@ -356,7 +356,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("JobFormEntityId");
 
-                    b.ToTable("JobResponsibilities");
+                    b.ToTable("JobResponsibilities", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.JobSkillEntity", b =>
@@ -378,7 +378,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("JobFormEntityId");
 
-                    b.ToTable("JobSkills");
+                    b.ToTable("JobSkills", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.Post", b =>
@@ -404,7 +404,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.PostCV", b =>
@@ -426,7 +426,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostCVs");
+                    b.ToTable("PostCVs", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.PostFile", b =>
@@ -448,7 +448,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostFiles");
+                    b.ToTable("PostFiles", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.PostPicture", b =>
@@ -470,7 +470,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PicturePosts");
+                    b.ToTable("PicturePosts", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.ProjectLink", b =>
@@ -497,7 +497,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectLinks");
+                    b.ToTable("ProjectLinks", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.SiteLink", b =>
@@ -520,7 +520,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SiteLinks");
+                    b.ToTable("SiteLinks", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.Skill", b =>
@@ -547,7 +547,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("Web_API.Models.TimelineStageEntity", b =>
@@ -575,7 +575,7 @@ namespace Web_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TimelineStages");
+                    b.ToTable("TimelineStages", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

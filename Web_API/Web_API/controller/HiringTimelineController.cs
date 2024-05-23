@@ -21,6 +21,7 @@ public class HiringTimelineController : ControllerBase
         _jobFormService = jobFormService;
     }
 
+
     [HttpPost("SetTimeline/{userId}")]
     public async Task<IActionResult> SetTimeline([FromRoute] string userId, [FromBody] SetTimelineModel model)
     {
@@ -36,6 +37,7 @@ public class HiringTimelineController : ControllerBase
         return Ok(result.Message);
     }
 
+
     [HttpGet("GetTimelinesForUser/{userId}")]
     public async Task<IActionResult> GetTimelinesForUser(string userId)
     {
@@ -50,6 +52,7 @@ public class HiringTimelineController : ControllerBase
         // Assuming `timelines` is a collection of `TimelineStageModel` or similar
         return Ok(timelines);
     }
+
 
     [HttpPut("UpdateTimelineStage/{userId}/{stageId}")]
     public async Task<IActionResult> UpdateTimelineStage(string userId, int stageId, [FromBody] TimelineStageModel updatedStage)
@@ -68,12 +71,11 @@ public class HiringTimelineController : ControllerBase
 
         return Ok(result.Message);
     }
+
     [HttpDelete("DeleteTimelineStage/{userId}/{stageId}")]
     public async Task<IActionResult> DeleteTimelineStage(string userId, int stageId)
     {
-        // Assuming you want to authorize the operation and ensure the user is deleting their own timeline stage
-        // You may get the userId from the User claims if using JWT or other authentication mechanisms
-        // var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+       
 
         if (string.IsNullOrEmpty(userId))
         {

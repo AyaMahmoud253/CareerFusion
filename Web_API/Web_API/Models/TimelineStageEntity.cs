@@ -10,7 +10,7 @@ namespace Web_API.Models
         public string ?Description { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-
+        public bool Status { get; set; } 
         // Relationship to User
         public string UserId { get; set; }
         [ForeignKey("UserId")]

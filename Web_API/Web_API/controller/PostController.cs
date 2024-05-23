@@ -21,7 +21,7 @@ namespace Web_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostWithUserDetailsDto>>> GetPosts()
         {
             var posts = await _postService.GetPostsAsync();
             return Ok(posts);
