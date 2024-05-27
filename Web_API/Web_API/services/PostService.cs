@@ -43,11 +43,25 @@ namespace Web_API.Services
             return await _context.Posts.FindAsync(postId);
         }
 
-        public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(string userId)
+        public async Task<IEnumerable<PostWithUserDetailsDto>> GetPostsByUserIdAsync(string userId)
         {
-            return await _context.Posts
+            var posts = await _context.Posts
                 .Where(p => p.UserId == userId)
+                .Include(p => p.User) // Ensure the User entity is included
                 .ToListAsync();
+
+            var postDtos = posts.Select(post => new PostWithUserDetailsDto
+            {
+                PostId = post.PostId,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                UserId = post.User.Id,
+                UserFullName = post.User.FullName,
+                UserEmail = post.User.Email,
+                UserProfilePicturePath = post.User.ProfilePicturePath
+            });
+
+            return postDtos;
         }
 
         public async Task<Post> CreatePostAsync(string userId, PostModel content)

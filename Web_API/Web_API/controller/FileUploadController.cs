@@ -23,8 +23,8 @@ namespace Web_API.Controllers
         {
             try
             {
-                var result = await _fileUploadService.UploadFileAsync(postId, file);
-                return Ok(result);
+                int fileId = await _fileUploadService.UploadFileAsync(postId, file);
+                return Ok(new { FileId = fileId });
             }
             catch (ArgumentException ex)
             {

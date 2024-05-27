@@ -21,7 +21,7 @@ namespace Web_API.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> UploadPictureAsync(int postId, IFormFile picture)
+        public async Task<int> UploadPictureAsync(int postId, IFormFile picture)
         {
             if (picture == null || picture.Length == 0)
             {
@@ -64,7 +64,7 @@ namespace Web_API.Services
                 _context.PicturePosts.Add(postPicture);
                 await _context.SaveChangesAsync();
 
-                return "Picture uploaded successfully.";
+                return postPicture.PostPictureId;
             }
             catch (Exception ex)
             {

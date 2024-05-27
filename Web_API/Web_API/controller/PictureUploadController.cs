@@ -27,8 +27,8 @@ namespace Web_API.Controllers
 
             try
             {
-                var result = await _pictureUploadService.UploadPictureAsync(postId, picture);
-                return Ok(result);
+                int pictureId = await _pictureUploadService.UploadPictureAsync(postId, picture);
+                return Ok(new { PictureId = pictureId });
             }
             catch (ArgumentException ex)
             {

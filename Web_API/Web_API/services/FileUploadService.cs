@@ -23,7 +23,7 @@ namespace Web_API.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> UploadFileAsync(int postId, IFormFile file)
+        public async Task<int> UploadFileAsync(int postId, IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -67,7 +67,7 @@ namespace Web_API.Services
                 _context.PostFiles.Add(postFile);
                 await _context.SaveChangesAsync();
 
-                return "File uploaded successfully.";
+                return postFile.PostFileId;
             }
             catch (Exception ex)
             {
