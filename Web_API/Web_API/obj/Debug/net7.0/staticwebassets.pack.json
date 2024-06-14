@@ -1,103 +1,119 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\confirmemail.html",
       "PackagePath": "staticwebassets\\confirmemail.html"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\008b062a-62e2-49c4-b6d3-cac6713cd3a6_Mariam-Ossama-FlowCV-Resume-20231228.pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\008b062a-62e2-49c4-b6d3-cac6713cd3a6_Mariam-Ossama-FlowCV-Resume-20231228.pdf",
       "PackagePath": "staticwebassets\\cv-uploads\\008b062a-62e2-49c4-b6d3-cac6713cd3a6_Mariam-Ossama-FlowCV-Resume-20231228.pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\06217516-2226-4019-b68d-877e5d2263ca_Aya Mahmoud CV.pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\06217516-2226-4019-b68d-877e5d2263ca_Aya Mahmoud CV.pdf",
       "PackagePath": "staticwebassets\\cv-uploads\\06217516-2226-4019-b68d-877e5d2263ca_Aya Mahmoud CV.pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\305730fd-a4be-4c5e-bd3d-59b9541341a4_Mariam_Ossama_Resume.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\305730fd-a4be-4c5e-bd3d-59b9541341a4_Mariam_Ossama_Resume.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\305730fd-a4be-4c5e-bd3d-59b9541341a4_Mariam_Ossama_Resume.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\853148ba-43ed-4126-97d7-400caddad1f5_CV.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\853148ba-43ed-4126-97d7-400caddad1f5_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\853148ba-43ed-4126-97d7-400caddad1f5_CV.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\b9411916-e8cc-455b-a116-9650672072db_CV.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\b9411916-e8cc-455b-a116-9650672072db_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\b9411916-e8cc-455b-a116-9650672072db_CV.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\cv-uploads\\~$416973-4f20-4208-8fa1-419d31c89173_CV.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\cv-uploads\\~$416973-4f20-4208-8fa1-419d31c89173_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\~$416973-4f20-4208-8fa1-419d31c89173_CV.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-pictures\\6e42ad1f-d13c-475a-9336-646e8a81c24c_Screenshot 2024-05-06 191335.png",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-pictures\\542324cc-f3c2-4208-9460-513ffda2751d_38.webp",
+      "PackagePath": "staticwebassets\\post-pictures\\542324cc-f3c2-4208-9460-513ffda2751d_38.webp"
+    },
+    {
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-pictures\\6e42ad1f-d13c-475a-9336-646e8a81c24c_Screenshot 2024-05-06 191335.png",
       "PackagePath": "staticwebassets\\post-pictures\\6e42ad1f-d13c-475a-9336-646e8a81c24c_Screenshot 2024-05-06 191335.png"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-pictures\\fc3cbf0b-8bef-44a0-8ba4-e5292dad08bd_Screenshot 2024-05-06 191335.png",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-pictures\\8d5ad246-ea7f-40ac-8976-6728f61146ae_1.JPG",
+      "PackagePath": "staticwebassets\\post-pictures\\8d5ad246-ea7f-40ac-8976-6728f61146ae_1.JPG"
+    },
+    {
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-pictures\\fc3cbf0b-8bef-44a0-8ba4-e5292dad08bd_Screenshot 2024-05-06 191335.png",
       "PackagePath": "staticwebassets\\post-pictures\\fc3cbf0b-8bef-44a0-8ba4-e5292dad08bd_Screenshot 2024-05-06 191335.png"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\0cf032b4-8947-45e8-becb-d9f91d70bc20_SOA_Assignment 2_2023 _XML.pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\0cf032b4-8947-45e8-becb-d9f91d70bc20_SOA_Assignment 2_2023 _XML.pdf",
       "PackagePath": "staticwebassets\\post-uploads\\0cf032b4-8947-45e8-becb-d9f91d70bc20_SOA_Assignment 2_2023 _XML.pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\0e63201b-8aaf-4e84-b71d-28b1c376648d_SOA_Assignment 1_2023 (1).pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\0e63201b-8aaf-4e84-b71d-28b1c376648d_SOA_Assignment 1_2023 (1).pdf",
       "PackagePath": "staticwebassets\\post-uploads\\0e63201b-8aaf-4e84-b71d-28b1c376648d_SOA_Assignment 1_2023 (1).pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\1059c2da-ed09-441d-8147-5050957fb043_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\1059c2da-ed09-441d-8147-5050957fb043_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf",
       "PackagePath": "staticwebassets\\post-uploads\\1059c2da-ed09-441d-8147-5050957fb043_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\1d30e1f2-a384-45cf-96fd-cce0af0aff7b_CV.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\1d30e1f2-a384-45cf-96fd-cce0af0aff7b_CV.docx",
       "PackagePath": "staticwebassets\\post-uploads\\1d30e1f2-a384-45cf-96fd-cce0af0aff7b_CV.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\c87c651e-3658-4ae2-818c-fb414f8ae1f4_Mariam-Ossama-FlowCV-Resume-20231228.pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\b6dacf7b-2958-4c19-9f25-d35ffc3a14b7_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf",
+      "PackagePath": "staticwebassets\\post-uploads\\b6dacf7b-2958-4c19-9f25-d35ffc3a14b7_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf"
+    },
+    {
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\c87c651e-3658-4ae2-818c-fb414f8ae1f4_Mariam-Ossama-FlowCV-Resume-20231228.pdf",
       "PackagePath": "staticwebassets\\post-uploads\\c87c651e-3658-4ae2-818c-fb414f8ae1f4_Mariam-Ossama-FlowCV-Resume-20231228.pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\d04f7b67-c823-4c22-95df-d45499c7719d_Mariam_Ossama_Resume.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\d04f7b67-c823-4c22-95df-d45499c7719d_Mariam_Ossama_Resume.docx",
       "PackagePath": "staticwebassets\\post-uploads\\d04f7b67-c823-4c22-95df-d45499c7719d_Mariam_Ossama_Resume.docx"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\post-uploads\\dfab774b-adc0-4f82-8b05-31fcdcbc6c22_Yassmeen_Mohamed Abd-Elkhalek Ali_Resume_22-07-2023-09-16-19.pdf",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\post-uploads\\dfab774b-adc0-4f82-8b05-31fcdcbc6c22_Yassmeen_Mohamed Abd-Elkhalek Ali_Resume_22-07-2023-09-16-19.pdf",
       "PackagePath": "staticwebassets\\post-uploads\\dfab774b-adc0-4f82-8b05-31fcdcbc6c22_Yassmeen_Mohamed Abd-Elkhalek Ali_Resume_22-07-2023-09-16-19.pdf"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\0822dbfc-5706-4937-b8ff-78acb952feb7_Screenshot 2023-11-02 130459.png",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\0822dbfc-5706-4937-b8ff-78acb952feb7_Screenshot 2023-11-02 130459.png",
       "PackagePath": "staticwebassets\\profile-pictures\\0822dbfc-5706-4937-b8ff-78acb952feb7_Screenshot 2023-11-02 130459.png"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\10c7cfbb-d5ef-4a07-af48-b5cfa073a7e3_Screenshot 2023-11-08 170902.png",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\10c7cfbb-d5ef-4a07-af48-b5cfa073a7e3_Screenshot 2023-11-08 170902.png",
       "PackagePath": "staticwebassets\\profile-pictures\\10c7cfbb-d5ef-4a07-af48-b5cfa073a7e3_Screenshot 2023-11-08 170902.png"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\12b907bf-d0e2-499d-80fb-4596b90070d6_40.jpg",
+      "PackagePath": "staticwebassets\\profile-pictures\\12b907bf-d0e2-499d-80fb-4596b90070d6_40.jpg"
+    },
+    {
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg",
       "PackagePath": "staticwebassets\\profile-pictures\\5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\92db6f43-517a-4d93-906b-58fec451af41_photo_2023-08-24_19-24-35.jpg",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\92db6f43-517a-4d93-906b-58fec451af41_photo_2023-08-24_19-24-35.jpg",
       "PackagePath": "staticwebassets\\profile-pictures\\92db6f43-517a-4d93-906b-58fec451af41_photo_2023-08-24_19-24-35.jpg"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\9f78e9aa-f0ba-4267-91ec-1073fe971fd5_Screenshot 2023-11-02 125302.png",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\9f78e9aa-f0ba-4267-91ec-1073fe971fd5_Screenshot 2023-11-02 125302.png",
       "PackagePath": "staticwebassets\\profile-pictures\\9f78e9aa-f0ba-4267-91ec-1073fe971fd5_Screenshot 2023-11-02 125302.png"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg",
       "PackagePath": "staticwebassets\\profile-pictures\\f0e83bf9-e56a-4c15-a9e6-6a13f21ee2d7_photo_2023-08-24_19-24-44.jpg"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\profile-pictures\\f6996bda-8028-453f-968d-f51529c24781_357774be3e345693b7e0693e83712be1-removebg-preview.png",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\profile-pictures\\f6996bda-8028-453f-968d-f51529c24781_357774be3e345693b7e0693e83712be1-removebg-preview.png",
       "PackagePath": "staticwebassets\\profile-pictures\\f6996bda-8028-453f-968d-f51529c24781_357774be3e345693b7e0693e83712be1-removebg-preview.png"
     },
     {
-      "Id": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\wwwroot\\uploads\\CV.docx",
+      "Id": "E:\\education\\semester#8\\GraduationProject\\CareerFusionBackEnd-V5\\Web_API\\Web_API\\wwwroot\\uploads\\CV.docx",
       "PackagePath": "staticwebassets\\uploads\\CV.docx"
     },
     {

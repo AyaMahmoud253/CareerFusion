@@ -128,6 +128,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\cv-uploads\~$416973-4f20-4208-8fa1-419d31c89173_CV.docx))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\542324cc-f3c2-4208-9460-513ffda2751d_38.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>Web_API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Web_API</BasePath>
+      <RelativePath>post-pictures/542324cc-f3c2-4208-9460-513ffda2751d_38.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\542324cc-f3c2-4208-9460-513ffda2751d_38.webp))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\6e42ad1f-d13c-475a-9336-646e8a81c24c_Screenshot 2024-05-06 191335.png))">
       <SourceType>Package</SourceType>
       <SourceId>Web_API</SourceId>
@@ -143,6 +159,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\6e42ad1f-d13c-475a-9336-646e8a81c24c_Screenshot 2024-05-06 191335.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\8d5ad246-ea7f-40ac-8976-6728f61146ae_1.JPG))">
+      <SourceType>Package</SourceType>
+      <SourceId>Web_API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Web_API</BasePath>
+      <RelativePath>post-pictures/8d5ad246-ea7f-40ac-8976-6728f61146ae_1.JPG</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\8d5ad246-ea7f-40ac-8976-6728f61146ae_1.JPG))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-pictures\fc3cbf0b-8bef-44a0-8ba4-e5292dad08bd_Screenshot 2024-05-06 191335.png))">
       <SourceType>Package</SourceType>
@@ -224,6 +256,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-uploads\1d30e1f2-a384-45cf-96fd-cce0af0aff7b_CV.docx))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-uploads\b6dacf7b-2958-4c19-9f25-d35ffc3a14b7_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>Web_API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Web_API</BasePath>
+      <RelativePath>post-uploads/b6dacf7b-2958-4c19-9f25-d35ffc3a14b7_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-uploads\b6dacf7b-2958-4c19-9f25-d35ffc3a14b7_Naiera_Mostafa_Resume_23-07-2023-09-20-52_230723_092112.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\post-uploads\c87c651e-3658-4ae2-818c-fb414f8ae1f4_Mariam-Ossama-FlowCV-Resume-20231228.pdf))">
       <SourceType>Package</SourceType>
       <SourceId>Web_API</SourceId>
@@ -303,6 +351,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\profile-pictures\10c7cfbb-d5ef-4a07-af48-b5cfa073a7e3_Screenshot 2023-11-08 170902.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\profile-pictures\12b907bf-d0e2-499d-80fb-4596b90070d6_40.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Web_API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Web_API</BasePath>
+      <RelativePath>profile-pictures/12b907bf-d0e2-499d-80fb-4596b90070d6_40.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\profile-pictures\12b907bf-d0e2-499d-80fb-4596b90070d6_40.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\profile-pictures\5196bd9a-da0d-4ce2-90ef-95295bc2c8c4_photo_2023-08-19_15-30-07.jpg))">
       <SourceType>Package</SourceType>
