@@ -18,7 +18,7 @@ namespace Web_API.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostPicture> PicturePosts { get; set; }
         public DbSet<PostCV> PostCVs { get; set; }
-
+        public DbSet<TelephoneInterviewQuestionEntity> TelephoneInterviewQuestions { get; set; } // Add this DbSet
         public DbSet<PostFile> PostFiles { get; set; } // Add this DbSet for the new model
 
 

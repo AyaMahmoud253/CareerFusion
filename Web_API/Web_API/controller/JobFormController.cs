@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Web_API.Models;
@@ -20,6 +21,7 @@ namespace Web_API.Controllers
             _jobFormService = jobFormService;
             _userManager = userManager;
         }
+    
         [HttpPost("add/{userId}")]
         public async Task<IActionResult> AddJobFormAsync([FromRoute] string userId, [FromBody] JobFormModel model)
         {
@@ -158,6 +160,53 @@ namespace Web_API.Controllers
             }
             return BadRequest(result);
         }
+        // New endpoint to add telephone interview questions to an existing job form
+        [HttpPost("add-telephone-interview-questions/{userId}/{jobId}")]
+        public async Task<IActionResult> AddTelephoneInterviewQuestions([FromRoute] string userId, [FromRoute] int jobId, [FromBody] List<TelephoneInterviewQuestionModel> questions)
+        {
+            var result = await _jobFormService.AddTelephoneInterviewQuestionsAsync(userId, jobId, questions);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+        [HttpGet("getTelephoneInterviewQuestionsByJobTitle/{jobTitle}")]
+        public async Task<IActionResult> GetTelephoneInterviewQuestionsByJobTitle(string jobTitle)
+        {
+            var result = await _jobFormService.GetTelephoneInterviewQuestionsByJobTitleAsync(jobTitle);
+            return Ok(result);
+        }
+
+        [HttpPut("update-telephone-interview-question")]
+        public async Task<IActionResult> UpdateTelephoneInterviewQuestion(int questionId, string jobTitle, TelephoneInterviewQuestionModel question)
+        {
+            var result = await _jobFormService.UpdateTelephoneInterviewQuestionAsync(questionId, jobTitle, question);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
+        [HttpDelete("deletetelephoneinterviewquestion/{questionId}/{jobTitle}")]
+        public async Task<IActionResult> DeleteTelephoneInterviewQuestionAsync(int questionId, string jobTitle)
+        {
+            var result = await _jobFormService.DeleteTelephoneInterviewQuestionAsync(questionId, jobTitle);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
+
 
 
 

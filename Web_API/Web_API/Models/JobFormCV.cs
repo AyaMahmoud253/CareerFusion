@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Web_API.Models;
 
-namespace Web_API.Models
+public class JobFormCV
 {
-    public class JobFormCV
-    {
-        [Key]
-        public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
 
-        // Foreign key to the job form
-        public int JobFormId { get; set; }
-        public virtual JobFormEntity JobForm { get; set; }
+    // Foreign key to the job form
+    public int JobFormId { get; set; }
+    public virtual JobFormEntity JobForm { get; set; }
 
-        // File path of the CV
-        public string FilePath { get; set; }
-    }
+    // Foreign key to the user
+    public string UserId { get; set; }
+
+    // File path of the CV
+    public string FilePath { get; set; }
 }

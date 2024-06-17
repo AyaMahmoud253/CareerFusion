@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_API.Models;
 
@@ -11,9 +12,11 @@ using Web_API.Models;
 namespace Web_API.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240617122546_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,32 +24,6 @@ namespace Web_API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("JobFormCV", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("JobFormId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobFormId");
-
-                    b.ToTable("JobFormCVs");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -310,6 +287,28 @@ namespace Web_API.Migrations
                     b.ToTable("JobDescriptions");
                 });
 
+            modelBuilder.Entity("Web_API.Models.JobFormCV", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("JobFormId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobFormId");
+
+                    b.ToTable("JobFormCVs");
+                });
+
             modelBuilder.Entity("Web_API.Models.JobFormEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -554,32 +553,6 @@ namespace Web_API.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("Web_API.Models.TelephoneInterviewQuestionEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("JobFormEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("JobTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobFormEntityId");
-
-                    b.ToTable("TelephoneInterviewQuestions");
-                });
-
             modelBuilder.Entity("Web_API.Models.TimelineStageEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -609,17 +582,6 @@ namespace Web_API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("TimelineStages");
-                });
-
-            modelBuilder.Entity("JobFormCV", b =>
-                {
-                    b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
-                        .WithMany("JobFormCVs")
-                        .HasForeignKey("JobFormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("JobForm");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -689,6 +651,17 @@ namespace Web_API.Migrations
                     b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
                         .WithMany("JobDescriptions")
                         .HasForeignKey("JobFormEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobForm");
+                });
+
+            modelBuilder.Entity("Web_API.Models.JobFormCV", b =>
+                {
+                    b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
+                        .WithMany("JobFormCVs")
+                        .HasForeignKey("JobFormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -805,17 +778,6 @@ namespace Web_API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Web_API.Models.TelephoneInterviewQuestionEntity", b =>
-                {
-                    b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
-                        .WithMany("TelephoneInterviewQuestions")
-                        .HasForeignKey("JobFormEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("JobForm");
-                });
-
             modelBuilder.Entity("Web_API.Models.TimelineStageEntity", b =>
                 {
                     b.HasOne("Web_API.Models.ApplicationUser", "User")
@@ -849,8 +811,6 @@ namespace Web_API.Migrations
                     b.Navigation("JobResponsibilities");
 
                     b.Navigation("JobSkills");
-
-                    b.Navigation("TelephoneInterviewQuestions");
                 });
 #pragma warning restore 612, 618
         }

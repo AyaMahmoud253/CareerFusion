@@ -16,6 +16,35 @@ namespace Web_API.Services
             _context = context;
             _userManager = userManager;
         }
+        public async Task<ServiceResult> AddTelephoneInterviewQuestionsAsync(string userId, int jobId, List<TelephoneInterviewQuestionModel> questions)
+        {
+            var jobForm = await _context.JobForms
+                .FirstOrDefaultAsync(jf => jf.Id == jobId && jf.UserId == userId);
+
+            if (jobForm == null)
+            {
+                return new ServiceResult { Success = false, Message = "Job form not found or does not belong to the user." };
+            }
+
+            try
+            {
+                var entities = questions.Select(q => new TelephoneInterviewQuestionEntity
+                {
+                    Question = q.Question,
+                    JobTitle = jobForm.JobTitle,
+                    JobFormEntityId = jobId
+                }).ToList();
+
+                _context.TelephoneInterviewQuestions.AddRange(entities);
+                await _context.SaveChangesAsync();
+
+                return new ServiceResult { Success = true, Message = "Telephone interview questions added successfully." };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Success = false, Message = $"Failed to add telephone interview questions: {ex.Message}" };
+            }
+        }
 
         public async Task<ServiceResult> AddJobFormAsync(string userId, JobFormModel model)
         {
@@ -353,6 +382,68 @@ namespace Web_API.Services
             return jobForms;
         }*/
 
+        public async Task<List<TelephoneInterviewQuestionModel>> GetTelephoneInterviewQuestionsByJobTitleAsync(string jobTitle)
+        {
+            var entities = await _context.TelephoneInterviewQuestions
+                .Where(q => q.JobTitle == jobTitle)
+                .Select(q => new TelephoneInterviewQuestionModel
+                {
+                    Id = q.Id,
+                    Question = q.Question,
+                    JobTitle = q.JobTitle
+                })
+                .ToListAsync();
+
+            return entities;
+        }
+
+
+        public async Task<ServiceResult> UpdateTelephoneInterviewQuestionAsync(int questionId, string jobTitle, TelephoneInterviewQuestionModel question)
+        {
+            try
+            {
+                var existingQuestion = await _context.TelephoneInterviewQuestions
+                    .FirstOrDefaultAsync(q => q.Id == questionId && q.JobTitle == jobTitle);
+
+                if (existingQuestion == null)
+                {
+                    return new ServiceResult { Success = false, Message = $"Telephone interview question with ID {questionId} and job title '{jobTitle}' not found." };
+                }
+
+                existingQuestion.Question = question.Question;
+
+                await _context.SaveChangesAsync();
+
+                return new ServiceResult { Success = true, Message = "Telephone interview question updated successfully." };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Success = false, Message = $"An error occurred: {ex.Message}" };
+            }
+        }
+
+        public async Task<ServiceResult> DeleteTelephoneInterviewQuestionAsync(int questionId, string jobTitle)
+        {
+            try
+            {
+                var existingQuestion = await _context.TelephoneInterviewQuestions
+                    .FirstOrDefaultAsync(q => q.Id == questionId && q.JobTitle == jobTitle);
+
+                if (existingQuestion == null)
+                {
+                    return new ServiceResult { Success = false, Message = $"Telephone interview question with ID {questionId} and job title '{jobTitle}' not found." };
+                }
+
+                _context.TelephoneInterviewQuestions.Remove(existingQuestion);
+                await _context.SaveChangesAsync();
+
+                return new ServiceResult { Success = true, Message = "Telephone interview question deleted successfully." };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Success = false, Message = $"An error occurred: {ex.Message}" };
+            }
+        }
 
 
 

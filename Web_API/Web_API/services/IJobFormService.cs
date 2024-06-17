@@ -14,7 +14,12 @@ namespace Web_API.services
         Task<ServiceResult> DeleteJobSkillAsync(string userId, int jobId, int skillId);
         Task<ServiceResult> DeleteJobDescriptionAsync(string userId, int jobId, int descriptionId);
         Task<ServiceResult> DeleteJobResponsibilityAsync(string userId, int jobId, int responsibilityId);
-       // Task<IEnumerable<JobFormEntity>> GetAllJobFormsAsync();
+        // Task<IEnumerable<JobFormEntity>> GetAllJobFormsAsync();
+        Task<ServiceResult> AddTelephoneInterviewQuestionsAsync(string userId, int jobId, List<TelephoneInterviewQuestionModel> questions);
+        Task<List<TelephoneInterviewQuestionModel>> GetTelephoneInterviewQuestionsByJobTitleAsync(string jobTitle);
 
+        Task<ServiceResult> UpdateTelephoneInterviewQuestionAsync( int questionId, string jobTitle, TelephoneInterviewQuestionModel question);
+
+        Task<ServiceResult> DeleteTelephoneInterviewQuestionAsync(int questionId, string jobTitle);
     }
 }

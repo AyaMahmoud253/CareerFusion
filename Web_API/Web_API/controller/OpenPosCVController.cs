@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,16 +18,17 @@ namespace Web_API.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OpenPosCVController(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment)
+        public OpenPosCVController(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+            _userManager = userManager;
         }
 
-        // Action for uploading CV for a specific job form
         [HttpPost("{jobFormId}/upload-cv")]
-        public async Task<IActionResult> UploadCVForJobForm(int jobFormId, IFormFile cvFile)
+        public async Task<IActionResult> UploadCVForJobForm(int jobFormId, string userId, IFormFile cvFile)
         {
             if (cvFile == null || cvFile.Length == 0)
             {
@@ -61,7 +63,8 @@ namespace Web_API.Controllers
                 var jobFormCV = new JobFormCV
                 {
                     JobFormId = jobFormId,
-                    FilePath = urlPath // Store URL path instead of file path
+                    FilePath = urlPath,
+                    UserId = userId // Associate the CV with the user
                 };
 
                 _context.JobFormCVs.Add(jobFormCV);
@@ -75,9 +78,8 @@ namespace Web_API.Controllers
             }
         }
 
-        // Action for retrieving all CVs associated with a specific job form
         [HttpGet("{jobFormId}/cvs")]
-        public async Task<ActionResult<IEnumerable<string>>> GetCVsForJobForm(int jobFormId)
+        public async Task<ActionResult<IEnumerable<object>>> GetCVsForJobForm(int jobFormId)
         {
             var jobForm = await _context.JobForms
                 .Include(jf => jf.JobFormCVs)
@@ -88,9 +90,49 @@ namespace Web_API.Controllers
                 return NotFound($"Job form with ID {jobFormId} not found.");
             }
 
-            // Convert file paths to URLs
-            var cvFilePaths = jobForm.JobFormCVs.Select(cv => cv.FilePath).ToList();
-            return Ok(cvFilePaths);
+            // Convert file paths to URLs and include UserId
+            var cvDetails = jobForm.JobFormCVs.Select(cv => new
+            {
+                cv.FilePath,
+                cv.UserId
+            }).ToList();
+
+            return Ok(cvDetails);
+        }
+
+        [HttpGet("all-cvs")]
+        public async Task<ActionResult<IEnumerable<object>>> GetAllCVs()
+        {
+            var allCVs = await _context.JobFormCVs
+                .Select(cv => new
+                {
+                    cv.JobFormId,
+                    cv.UserId,
+                    cv.FilePath
+                }).ToListAsync();
+
+            return Ok(allCVs);
+        }
+
+        [HttpGet("{userId}/contact-info")]
+        public async Task<IActionResult> GetUserContactInfo(string userId)
+        {
+            var user = await _userManager.Users
+                .Where(u => u.Id == userId)
+                .Select(u => new
+                {
+                    u.FullName,
+                    u.PhoneNumber,
+                    u.Email
+                })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound($"User with ID {userId} not found.");
+            }
+
+            return Ok(user);
         }
 
         // Other actions...

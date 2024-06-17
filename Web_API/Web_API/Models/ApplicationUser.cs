@@ -9,7 +9,7 @@ namespace Web_API.Models
     {
        
         public string FullName { get; set; }
-
+        //public virtual ICollection<TelephoneInterviewQuestion> TelephoneInterviewQuestions { get; set; }
         public string ?Title { get; set; }
         public string ?ProfilePicturePath { get; set; }
         public int ?FollowersCount { get; set; }
