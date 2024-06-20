@@ -77,6 +77,9 @@ builder.Services.AddScoped<ICVUploadService, CVUploadService>();
 
 
 builder.Services.AddTransient<IMailService, SendGridMailService>();
+
+
+
 builder.Services.AddRazorPages();
 var app = builder.Build();
 

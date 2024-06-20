@@ -34,12 +34,18 @@ namespace Web_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsScoreAbove70")
+                        .HasColumnType("bit");
+
                     b.Property<int>("JobFormId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isTelephoneInterviewPassed")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -383,6 +389,30 @@ namespace Web_API.Migrations
                     b.HasIndex("JobFormEntityId");
 
                     b.ToTable("JobSkills");
+                });
+
+            modelBuilder.Entity("Web_API.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Web_API.Models.Post", b =>

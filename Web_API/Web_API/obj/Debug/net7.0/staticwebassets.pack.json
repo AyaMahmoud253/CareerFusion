@@ -13,12 +13,28 @@
       "PackagePath": "staticwebassets\\cv-uploads\\06217516-2226-4019-b68d-877e5d2263ca_Aya Mahmoud CV.pdf"
     },
     {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\1011_CVTwo.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\1011_CVTwo.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\1012_CVOne.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\1012_CVOne.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\1013_CVThr.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\1013_CVThr.docx"
+    },
+    {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\305730fd-a4be-4c5e-bd3d-59b9541341a4_Mariam_Ossama_Resume.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\305730fd-a4be-4c5e-bd3d-59b9541341a4_Mariam_Ossama_Resume.docx"
     },
     {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\51416973-4f20-4208-8fa1-419d31c89173_CV.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\5a0b80c9-9165-4111-964e-9817f9428078_Resume_Aya_Mahmoud.pdf",
+      "PackagePath": "staticwebassets\\cv-uploads\\5a0b80c9-9165-4111-964e-9817f9428078_Resume_Aya_Mahmoud.pdf"
     },
     {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\619b1688-8d6b-402a-aea5-3a78459900b8_CV.pdf",
@@ -33,12 +49,40 @@
       "PackagePath": "staticwebassets\\cv-uploads\\853148ba-43ed-4126-97d7-400caddad1f5_CV.docx"
     },
     {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\a52dd9ec-207d-48ad-8300-91952836807f_Resume_Aya_Mahmoud.pdf",
+      "PackagePath": "staticwebassets\\cv-uploads\\a52dd9ec-207d-48ad-8300-91952836807f_Resume_Aya_Mahmoud.pdf"
+    },
+    {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\b9411916-e8cc-455b-a116-9650672072db_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\b9411916-e8cc-455b-a116-9650672072db_CV.docx"
     },
     {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\jobform-1012\\1008_CVTwo.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\jobform-1012\\1008_CVTwo.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\jobform-7\\1007_CVTwo.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\jobform-7\\1007_CVTwo.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\jobform-7\\1009_CVThr.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\jobform-7\\1009_CVThr.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\jobform-7\\1010_CVOne.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\jobform-7\\1010_CVOne.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\jobform-7\\3e5acdb0-9cf4-47bf-bc0f-a9dcb7f02604_CVOne.docx",
+      "PackagePath": "staticwebassets\\cv-uploads\\jobform-7\\3e5acdb0-9cf4-47bf-bc0f-a9dcb7f02604_CVOne.docx"
+    },
+    {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\cv-uploads\\~$416973-4f20-4208-8fa1-419d31c89173_CV.docx",
       "PackagePath": "staticwebassets\\cv-uploads\\~$416973-4f20-4208-8fa1-419d31c89173_CV.docx"
+    },
+    {
+      "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\jobform-1012.zip",
+      "PackagePath": "staticwebassets\\jobform-1012.zip"
     },
     {
       "Id": "C:\\Users\\laptop\\Documents\\GitHub\\CareerFusionGP1\\Web_API\\Web_API\\wwwroot\\post-pictures\\542324cc-f3c2-4208-9460-513ffda2751d_38.webp",

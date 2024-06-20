@@ -15,4 +15,7 @@ public class JobFormCV
 
     // File path of the CV
     public string FilePath { get; set; }
+    // Flag to indicate if the score is above 70
+    public bool IsScoreAbove70 { get; set; }
+    public bool isTelephoneInterviewPassed { get; set; }
 }

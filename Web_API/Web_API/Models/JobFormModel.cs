@@ -18,7 +18,7 @@
 
         // Collection of Job Responsibilities
         public List<JobResponsibilityModel>? JobResponsibilities { get; set; }
-        public List<TelephoneInterviewQuestionModel> TelephoneInterviewQuestions { get; set; }
+        public List<TelephoneInterviewQuestionModel>?TelephoneInterviewQuestions { get; set; }
 
 
 
