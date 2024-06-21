@@ -12,26 +12,13 @@ namespace Web_API.Migrations
         {
            
 
-            migrationBuilder.DropTable(
-                name: "MatchedCVs");
+            
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "MatchedCVs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MatchedCVs", x => x.Id);
-                });
+            
 
            
         }
