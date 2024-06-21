@@ -21,5 +21,6 @@ namespace Web_API.services
         Task<ServiceResult> UpdateTelephoneInterviewQuestionAsync( int questionId, string jobTitle, TelephoneInterviewQuestionModel question);
 
         Task<ServiceResult> DeleteTelephoneInterviewQuestionAsync(int questionId, string jobTitle);
+        Task<List<JobFormModel>> GetAllOpenPositionsAsync();
     }
 }

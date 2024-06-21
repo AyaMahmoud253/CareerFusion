@@ -381,6 +381,22 @@ namespace Web_API.Services
 
             return jobForms;
         }*/
+        public async Task<List<JobFormModel>> GetAllOpenPositionsAsync()
+        {
+            var openPositions = await (from jf in _context.JobForms
+                                       join user in _context.Users
+                                       on jf.UserId equals user.Id
+                                       select new JobFormModel
+                                       {
+                                           JobId = jf.Id,
+                                           JobTitle = jf.JobTitle,
+                                           JobType = jf.JobType,
+                                           JobLocation = jf.JobLocation,
+                                           UserId = jf.UserId
+                                       }).ToListAsync();
+
+            return openPositions;
+        }
 
         public async Task<List<TelephoneInterviewQuestionModel>> GetTelephoneInterviewQuestionsByJobTitleAsync(string jobTitle)
         {

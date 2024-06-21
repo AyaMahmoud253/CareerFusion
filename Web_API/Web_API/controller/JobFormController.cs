@@ -207,6 +207,18 @@ namespace Web_API.Controllers
             }
         }
 
+        [HttpGet("all-open-positions")]
+        public async Task<IActionResult> GetAllOpenPositions()
+        {
+            var result = await _jobFormService.GetAllOpenPositionsAsync();
+
+            if (result != null && result.Any())
+            {
+                return Ok(result);
+            }
+
+            return NotFound("No open positions found.");
+        }
 
 
 

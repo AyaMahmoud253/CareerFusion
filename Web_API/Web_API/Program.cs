@@ -10,6 +10,7 @@ using Web_API.helpers;
 using Web_API.Models;
 using Web_API.services;
 using Web_API.Services;
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ var configuration = builder.Configuration;
 var jwtSettings = new JWT();
 configuration.GetSection("JWT").Bind(jwtSettings);
 builder.Services.AddSingleton(jwtSettings);
+
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -14,6 +14,7 @@ using Web_API.services;
 using Newtonsoft.Json;
 using System.IO.Compression;
 using System.Collections.Generic;
+using OfficeOpenXml;
 
 namespace Web_API.Controllers
 {
@@ -26,7 +27,7 @@ namespace Web_API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly ILogger<OpenPosCVController> _logger;
-       
+
 
 
         public OpenPosCVController(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, UserManager<ApplicationUser> userManager,
@@ -37,7 +38,7 @@ namespace Web_API.Controllers
             _userManager = userManager;
             _configuration = configuration;
             _logger = logger;
-            
+
 
         }
 
@@ -208,9 +209,9 @@ namespace Web_API.Controllers
 
             return Ok(allCVs);
         }
-    
-    
-    [HttpGet("{userId}/contact-info")]
+
+
+        [HttpGet("{userId}/contact-info")]
         public async Task<IActionResult> GetUserContactInfo(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -274,8 +275,8 @@ namespace Web_API.Controllers
         }
 
 
-        [HttpPut("update-scores-for-screend")]
-        public async Task<IActionResult> UpdateScores([FromBody] List<string> emails)
+        [HttpPut("update-scores-for-screened/{jobFormId}")]
+        public async Task<IActionResult> UpdateScores(int jobFormId, [FromBody] List<string> emails)
         {
             try
             {
@@ -291,12 +292,12 @@ namespace Web_API.Controllers
                 var userIds = users.Select(u => u.Id).ToList();
 
                 var jobFormCVs = await _context.JobFormCVs
-                    .Where(j => userIds.Contains(j.UserId))
+                    .Where(j => userIds.Contains(j.UserId) && j.JobFormId == jobFormId)
                     .ToListAsync();
 
                 if (jobFormCVs == null || !jobFormCVs.Any())
                 {
-                    return NotFound(new ServiceResult { Success = false, Message = "No JobFormCVs found for the provided users." });
+                    return NotFound(new ServiceResult { Success = false, Message = "No JobFormCVs found for the provided users and job form ID." });
                 }
 
                 var updatedJobFormCVIds = new List<int>();
@@ -318,43 +319,47 @@ namespace Web_API.Controllers
             }
         }
 
-        [HttpPut("set-telephone-interview-date")] 
-        public async Task<IActionResult> SetInterviewDate(string email, DateTime interviewDate, string companyName)
+        [HttpPut("{id}/jobform/{jobFormId}/set-telephone-interview-date")]
+        public async Task<IActionResult> SetTelephoneInterviewDate(int id, int jobFormId, DateTime interviewDate)
         {
             try
             {
-                var user = await _userManager.FindByEmailAsync(email);
+                var jobFormCV = await _context.JobFormCVs.FindAsync(id);
+                if (jobFormCV == null || jobFormCV.JobFormId != jobFormId)
+                {
+                    return NotFound(new ServiceResult { Success = false, Message = $"JobFormCV with ID '{id}' not found for the specified job form ID '{jobFormId}'." });
+                }
 
+                var jobForm = await _context.JobForms.FindAsync(jobFormId);
+                if (jobForm == null)
+                {
+                    return NotFound(new ServiceResult { Success = false, Message = $"JobForm with ID '{jobFormId}' not found." });
+                }
+
+                var user = await _userManager.FindByIdAsync(jobForm.UserId);
                 if (user == null)
                 {
-                    return NotFound(new ServiceResult { Success = false, Message = $"User with email '{email}' not found." });
+                    return NotFound(new ServiceResult { Success = false, Message = $"User associated with JobForm ID '{jobFormId}' not found." });
                 }
 
-                var jobFormCV = await _context.JobFormCVs.FirstOrDefaultAsync(j => j.UserId == user.Id);
-
-                if (jobFormCV == null)
-                {
-                    return NotFound(new ServiceResult { Success = false, Message = $"No JobFormCV found for user with email '{email}'." });
-                }
-
-                //jobFormCV.IsScoreAbove70 = !jobFormCV.IsScoreAbove70;
+                // Set the interview date and save changes
 
                 await _context.SaveChangesAsync();
 
-                if (jobFormCV.IsScoreAbove70)
+                var hrName = user.FullName ?? "HR";
+
+                // Create a notification for the user
+                var notification = new Notification
                 {
-                    var notification = new Notification
-                    {
-                        UserId = user.Id,
-                        Message = $"Your interview with {companyName} is scheduled for {interviewDate:yyyy-MM-dd}",
-                        CreatedAt = DateTime.UtcNow
-                    };
+                    UserId = jobFormCV.UserId,
+                    Message = $"Your telephone interview is scheduled for {interviewDate:yyyy-MM-dd} by HR {hrName}",
+                    CreatedAt = DateTime.UtcNow
+                };
 
-                    _context.Notifications.Add(notification);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Notifications.Add(notification);
+                await _context.SaveChangesAsync();
 
-                return Ok(new ServiceResult { Success = true, Message = $"Interview date set for user with email '{email}'." });
+                return Ok(new ServiceResult { Success = true, Message = $"Interview date set for JobForm ID '{jobFormId}' and CV ID '{id}'." });
             }
             catch (Exception ex)
             {
@@ -363,11 +368,12 @@ namespace Web_API.Controllers
             }
         }
 
-
-        [HttpPut("{id}/toggle-telephone-interview")]
-        public async Task<IActionResult> ToggleTelephoneInterview(int id)
+        [HttpPut("{jobFormId}/{cvId}/toggle-telephone-interview")]
+        public async Task<IActionResult> ToggleTelephoneInterview(int jobFormId, int cvId)
         {
-            var jobFormCV = await _context.JobFormCVs.FindAsync(id);
+            var jobFormCV = await _context.JobFormCVs
+                .Where(cv => cv.JobFormId == jobFormId && cv.Id == cvId)
+                .FirstOrDefaultAsync();
 
             if (jobFormCV == null)
             {
@@ -379,7 +385,7 @@ namespace Web_API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok(new ServiceResult { Success = true, Message = $"Telephone interview status toggled for CV ID {id}." });
+                return Ok(new ServiceResult { Success = true, Message = $"Telephone interview status toggled for CV ID {cvId}." });
             }
             catch (Exception ex)
             {
@@ -387,14 +393,15 @@ namespace Web_API.Controllers
                 return StatusCode(500, new ServiceResult { Success = false, Message = $"An error occurred: {ex.Message}" });
             }
         }
-        [HttpPut("{id}/set-technical-interview-date")]
-        public async Task<IActionResult> SetTechnicalInterviewDate(int id, DateTime? technicalAssessmentDate, DateTime? physicalInterviewDate)
+
+        [HttpPut("{id}/jobform/{jobFormId}/set-technical-interview-date")]
+        public async Task<IActionResult> SetTechnicalInterviewDate(int id, int jobFormId, DateTime? technicalAssessmentDate, DateTime? physicalInterviewDate)
         {
             var jobFormCV = await _context.JobFormCVs.FindAsync(id);
 
-            if (jobFormCV == null)
+            if (jobFormCV == null || jobFormCV.JobFormId != jobFormId)
             {
-                return NotFound(new ServiceResult { Success = false, Message = "Job form CV not found." });
+                return NotFound(new ServiceResult { Success = false, Message = "Job form CV not found for the specified job form." });
             }
 
             if (!jobFormCV.isTelephoneInterviewPassed)
@@ -405,7 +412,15 @@ namespace Web_API.Controllers
             try
             {
                 var jobForm = await _context.JobForms.FindAsync(jobFormCV.JobFormId);
+                if (jobForm == null)
+                {
+                    return NotFound(new ServiceResult { Success = false, Message = "Job form not found." });
+                }
                 var user2 = await _userManager.FindByIdAsync(jobForm.UserId);
+                if (user2 == null)
+                {
+                    return NotFound(new ServiceResult { Success = false, Message = "HR not found." });
+                }
                 var HR = user2.FullName;
 
                 var user = await _userManager.FindByIdAsync(jobFormCV.UserId);
@@ -448,6 +463,8 @@ namespace Web_API.Controllers
         }
 
 
+
+
         [HttpGet("screened/{jobFormId}")]
         public async Task<ActionResult<IEnumerable<object>>> GetRecordsWithScoreAbove70(int jobFormId)
         {
@@ -459,11 +476,13 @@ namespace Web_API.Controllers
                     cv.JobFormId,
                     cv.UserId,
                     UserEmail = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.Email).FirstOrDefault(),
+                    UserFullName = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.FullName).FirstOrDefault(),
                     cv.FilePath
                 }).ToListAsync();
 
             return Ok(records);
         }
+
 
 
 
@@ -477,6 +496,8 @@ namespace Web_API.Controllers
                     cv.Id,
                     cv.JobFormId,
                     cv.UserId,
+                    UserEmail = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.Email).FirstOrDefault(),
+                    UserFullName = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.FullName).FirstOrDefault(),
                     cv.FilePath
                 }).ToListAsync();
 
@@ -493,6 +514,61 @@ namespace Web_API.Controllers
                 .ToListAsync();
 
             return Ok(notifications);
+        }
+        [HttpGet("export-telephone-interview-passed/{jobFormId}")]
+        public async Task<IActionResult> ExportRecordsWithTelephoneInterviewPassedToExcel(int jobFormId)
+        {
+            var records = await _context.JobFormCVs
+                .Where(cv => cv.isTelephoneInterviewPassed && cv.JobFormId == jobFormId)
+                .Select(cv => new
+                {
+                    cv.Id,
+                    cv.JobFormId,
+                    cv.UserId,
+                    User = _context.Users
+                        .Where(u => u.Id == cv.UserId)
+                        .Select(u => new
+                        {
+                            u.FullName,
+                            u.Email,
+                            u.PhoneNumber
+                        }).FirstOrDefault(),
+                    JobForm = _context.JobForms
+                        .Where(jf => jf.Id == cv.JobFormId)
+                        .Select(jf => jf.JobTitle) // Assuming the job form has a Title property for the job title
+                        .FirstOrDefault()
+                }).ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Records");
+
+                // Add headers
+                worksheet.Cells[1, 1].Value = "Full Name";
+                worksheet.Cells[1, 2].Value = "Email";
+                worksheet.Cells[1, 3].Value = "Phone Number";
+                worksheet.Cells[1, 4].Value = "Job Title";
+
+                // Add records
+                for (int i = 0; i < records.Count; i++)
+                {
+                    worksheet.Cells[i + 2, 1].Value = records[i].User?.FullName;
+                    worksheet.Cells[i + 2, 2].Value = records[i].User?.Email;
+                    worksheet.Cells[i + 2, 3].Value = records[i].User?.PhoneNumber;
+                    worksheet.Cells[i + 2, 4].Value = records[i].JobForm;
+                }
+
+                // Auto-fit columns for all cells
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+                stream.Position = 0;
+
+                string excelName = $"TelephoneInterviewPassed_{jobFormId}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+            }
         }
 
         // Other actions...
