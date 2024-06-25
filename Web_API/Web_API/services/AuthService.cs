@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SendGrid.Helpers.Mail;
@@ -20,18 +21,20 @@ namespace Web_API.services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private IConfiguration _configuration;
-        private IMailService _mailService;
+        private readonly IEmailService _emailService;
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _jwt;
 
         public AuthService(
-            UserManager<ApplicationUser> userManager, IConfiguration configuration, IMailService mailService,
+            UserManager<ApplicationUser> userManager, IConfiguration configuration, IEmailService emailService, IHostEnvironment hostEnvironment,
             RoleManager<IdentityRole> roleManager,
             IOptions<JWT> jwt)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _configuration = configuration;
-            _mailService = mailService;
+            _emailService = emailService;
+            _hostEnvironment = hostEnvironment;
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
             _jwt = jwt?.Value ?? throw new ArgumentNullException(nameof(jwt));
 
@@ -70,7 +73,7 @@ namespace Web_API.services
 
             string url = $"{_configuration["AppUrl"]}/api/Auth/confirmemail?userid={user.Id}&token={validEmailToken}";
 
-            await _mailService.SendEmailAsync(user.Email, "Confirm your email", $"<h1>Welcome to Career Fusion App</h1>" +
+            await _emailService.SendEmailAsync(user.Email, "Confirm your email", $"<h1>Welcome to Career Fusion App</h1>" +
                     $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
             await _userManager.AddToRoleAsync(user, "User");
             var jwtSecurityToken = await CreateJwtToken(user);
@@ -117,31 +120,33 @@ namespace Web_API.services
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
-                return new AuthModel
-                {
-                    IsAuthenticated = false,
-                    Message = "User not found"
-                };
+                return new AuthModel { Message = "User not found", IsAuthenticated = false };
 
             var decodedToken = WebEncoders.Base64UrlDecode(token);
-            string normalToken = Encoding.UTF8.GetString(decodedToken);
-
+            var normalToken = Encoding.UTF8.GetString(decodedToken);
             var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+
             if (result.Succeeded)
+            {
+                string confirmationEmailHtml;
+                var filePath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "confirmemail.html");
+
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    confirmationEmailHtml = await reader.ReadToEndAsync();
+                }
+
+                await _emailService.SendEmailAsync(user.Email, "Email Confirmed", confirmationEmailHtml);
+
                 return new AuthModel
                 {
                     Message = "Email confirmed successfully!",
-                    IsAuthenticated = true,
+                    IsAuthenticated = true
+                    
                 };
-            return new AuthModel
-            {
-                IsAuthenticated = false,
-                Message = "Email did not confirm. " + string.Join(", ", result.Errors.Select(e => e.Description))
-            };
+            }
 
-
-
-
+            return new AuthModel { Message = "Email did not confirm", IsAuthenticated = false };
         }
 
         public async Task<AuthModel> ForgetPasswordAsync(string email)
@@ -160,7 +165,7 @@ namespace Web_API.services
 
             string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
 
-            await _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
+            await _emailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
                 $"<p>To reset your password <a href='{url}'>Click here</a></p>");
 
             return new AuthModel

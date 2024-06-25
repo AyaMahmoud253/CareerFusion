@@ -41,7 +41,7 @@ namespace Web_API.Controllers
         [HttpGet("HrPost/{userId}")]
         public async Task<ActionResult<IEnumerable<PostWithUserDetailsDto>>> GetPostsByUserId(string userId)
         {
-            var posts = await _postService.GetPostsByUserIdAsync(userId);
+            var posts = await _postService.GetPostsWithFilesAndPicturesAsync(userId);
             return Ok(posts);
         }
 

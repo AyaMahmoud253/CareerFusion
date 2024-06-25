@@ -8,8 +8,7 @@ namespace Web_API.Services
     {
         Task<IEnumerable<PostWithUserDetailsDto>> GetPostsAsync();
         Task<Post> GetPostByIdAsync(int postId);
-        Task<IEnumerable<PostWithUserDetailsDto>> GetPostsByUserIdAsync(string userId); // Updated method
-
+        Task<IEnumerable<PostWithUserDetailsDto>> GetPostsWithFilesAndPicturesAsync(string userId);
         Task<Post> CreatePostAsync(string userId, PostModel content);
 
     }

@@ -18,4 +18,11 @@ public class JobFormCV
     // Flag to indicate if the score is above 70
     public bool IsScoreAbove70 { get; set; }
     public bool isTelephoneInterviewPassed { get; set; }
+    public bool IsTechnicalInterviewPassed { get; set; } // New property for technical interview status
+
+    // New properties for interview dates
+    public DateTime? TechnicalAssessmentDate { get; set; }
+    public DateTime? PhysicalInterviewDate { get; set; }
+    public DateTime? TelephoneInterviewDate { get; set; } // New property for telephone interview date
+
 }

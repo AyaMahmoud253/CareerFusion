@@ -16,5 +16,11 @@ namespace Web_API.Models
         // Foreign key to User
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
+
+        // Navigation property for related files uploaded with this post
+        public virtual ICollection<PostFile> PostFiles { get; set; }
+
+        // Navigation property for related pictures associated with this post
+        public virtual ICollection<PostPicture> PostPictures { get; set; }
     }
 }

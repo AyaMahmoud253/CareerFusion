@@ -11,6 +11,7 @@ using Web_API.Models;
 using Web_API.services;
 using Web_API.Services;
 using OfficeOpenXml;
+using Web_API.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,11 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IPictureUploadService, PictureUploadService>();
 builder.Services.AddScoped<ICVUploadService, CVUploadService>();
+builder.Services.AddScoped<ITelephoneQuestionsService,TelephoneQuestionsService>();
+// Add services to the container
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 
 

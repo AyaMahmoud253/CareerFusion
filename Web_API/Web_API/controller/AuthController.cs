@@ -10,9 +10,9 @@ namespace Web_API.controller
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private IMailService _mailService;
+        private IEmailService _mailService;
         private IConfiguration _configuration;
-        public AuthController(IAuthService authService, IMailService mailService, IConfiguration configuration)
+        public AuthController(IAuthService authService, IEmailService mailService, IConfiguration configuration)
         {
             _authService = authService;
             _mailService = mailService;
@@ -63,7 +63,7 @@ namespace Web_API.controller
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
-                return NotFound();
+                return BadRequest("User ID and token are required");
             var result = await _authService.ConfirmEmailAsync(userId, token);
 
             if (result.IsAuthenticated)
@@ -78,7 +78,7 @@ namespace Web_API.controller
         public async Task<IActionResult> ForgetPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
-                return NotFound();
+                return BadRequest(ModelState);
 
             var result = await _authService.ForgetPasswordAsync(email);
 

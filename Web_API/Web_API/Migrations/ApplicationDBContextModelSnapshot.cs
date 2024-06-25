@@ -37,8 +37,20 @@ namespace Web_API.Migrations
                     b.Property<bool>("IsScoreAbove70")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsTechnicalInterviewPassed")
+                        .HasColumnType("bit");
+
                     b.Property<int>("JobFormId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("PhysicalInterviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("TechnicalAssessmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("TelephoneInterviewDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -453,8 +465,30 @@ namespace Web_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsTechnicalInterviewPassed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTelephoneInterviewPassed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PassedScreening")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("PhysicalInterviewDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("PostId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("TechnicalAssessmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("TelephoneInterviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PostCVId");
 
@@ -582,6 +616,28 @@ namespace Web_API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("Web_API.Models.TelephoneInterviewQuestion", b =>
+                {
+                    b.Property<int>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QuestionId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("TelephonePostQuestions");
                 });
 
             modelBuilder.Entity("Web_API.Models.TelephoneInterviewQuestionEntity", b =>
@@ -833,6 +889,17 @@ namespace Web_API.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Web_API.Models.TelephoneInterviewQuestion", b =>
+                {
+                    b.HasOne("Web_API.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Web_API.Models.TelephoneInterviewQuestionEntity", b =>

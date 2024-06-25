@@ -22,7 +22,9 @@ namespace Web_API.Services
         public async Task<IEnumerable<PostWithUserDetailsDto>> GetPostsAsync()
         {
             var posts = await _context.Posts
-                .Include(p => p.User) // Ensure the User entity is included
+                .Include(p => p.User) // Include User entity
+                .Include(p => p.PostFiles) // Include PostFiles navigation property
+                .Include(p => p.PostPictures) // Include PostPictures navigation property
                 .ToListAsync();
 
             var postDtos = posts.Select(post => new PostWithUserDetailsDto
@@ -33,21 +35,27 @@ namespace Web_API.Services
                 UserId = post.User.Id,
                 UserFullName = post.User.FullName,
                 UserEmail = post.User.Email,
-                UserProfilePicturePath = post.User.ProfilePicturePath
+                UserProfilePicturePath = post.User.ProfilePicturePath,
+                PostFileIds = post.PostFiles.Select(pf => pf.PostFileId).ToList(),
+                PostPictureIds = post.PostPictures.Select(pp => pp.PostPictureId).ToList()
             });
 
             return postDtos;
         }
+
+
         public async Task<Post> GetPostByIdAsync(int postId)
         {
             return await _context.Posts.FindAsync(postId);
         }
 
-        public async Task<IEnumerable<PostWithUserDetailsDto>> GetPostsByUserIdAsync(string userId)
+        public async Task<IEnumerable<PostWithUserDetailsDto>> GetPostsWithFilesAndPicturesAsync(string userId)
         {
             var posts = await _context.Posts
                 .Where(p => p.UserId == userId)
-                .Include(p => p.User) // Ensure the User entity is included
+                .Include(p => p.User)
+                .Include(p => p.PostFiles)
+                .Include(p => p.PostPictures)
                 .ToListAsync();
 
             var postDtos = posts.Select(post => new PostWithUserDetailsDto
@@ -58,11 +66,15 @@ namespace Web_API.Services
                 UserId = post.User.Id,
                 UserFullName = post.User.FullName,
                 UserEmail = post.User.Email,
-                UserProfilePicturePath = post.User.ProfilePicturePath
+                UserProfilePicturePath = post.User.ProfilePicturePath,
+                PostFileIds = post.PostFiles.Select(pf => pf.PostFileId).ToList(),
+                PostPictureIds = post.PostPictures.Select(pp => pp.PostPictureId).ToList()
             });
 
             return postDtos;
         }
+
+
 
         public async Task<Post> CreatePostAsync(string userId, PostModel content)
         {
