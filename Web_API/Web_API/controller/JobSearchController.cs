@@ -1,4 +1,5 @@
 ﻿// JobSearchController.cs
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Web_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class JobSearchController : ControllerBase
     {
         private readonly IJobSearchService _jobSearchService;

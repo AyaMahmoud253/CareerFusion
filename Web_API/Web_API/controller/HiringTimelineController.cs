@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Web_API.Services;
+using Microsoft.AspNetCore.Cors;
 
 [Route("api/[controller]")]
 [ApiController]
+[EnableCors("AllowSpecificOrigins")]
 public class HiringTimelineController : ControllerBase
 {
     private readonly IHiringTimelineService _hiringTimelineService;

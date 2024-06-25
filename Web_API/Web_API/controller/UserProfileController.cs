@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 
 
@@ -17,6 +18,7 @@ namespace Web_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class UserProfileController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;

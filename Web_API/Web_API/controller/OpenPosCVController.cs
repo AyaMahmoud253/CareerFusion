@@ -15,11 +15,13 @@ using Newtonsoft.Json;
 using System.IO.Compression;
 using System.Collections.Generic;
 using OfficeOpenXml;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class OpenPosCVController : ControllerBase
     {
         private readonly ApplicationDBContext _context;

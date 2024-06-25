@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web_API.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class CVSearchController : ControllerBase
     {
         private readonly IJobFormCVService _jobFormCVService;

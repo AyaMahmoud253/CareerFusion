@@ -33,6 +33,18 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5266") // Include your AppUrl here
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 
 // Add DbContext and Identity
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
@@ -101,6 +113,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Add CORS middleware
+app.UseCors("AllowSpecificOrigins");
+
 // Add authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();

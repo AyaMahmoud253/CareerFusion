@@ -4,11 +4,13 @@ using Web_API.services;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     //[Authorize(Policy = "AdminOnly")]
     public class CrudController : ControllerBase
     {

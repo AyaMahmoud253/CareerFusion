@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web_API.services;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web_API.controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class TelephoneInterviewQuestionsController : ControllerBase
     {
         private readonly ITelephoneQuestionsService _telephoneInterviewQuestionsService;

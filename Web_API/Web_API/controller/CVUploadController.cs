@@ -10,11 +10,13 @@ using System.IO.Compression;
 using Web_API.services;
 using Web_API.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class CVUploadController : ControllerBase
     {
         private readonly ApplicationDBContext _context;

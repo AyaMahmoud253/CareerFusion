@@ -2,11 +2,12 @@
 using Web_API.Models;
 using Web_API.services;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Cors;
 namespace Web_API.controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
