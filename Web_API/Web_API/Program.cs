@@ -39,7 +39,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5266") // Include your AppUrl here
+            builder.WithOrigins("http://localhost:3000") // Include your AppUrl here
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -116,6 +116,7 @@ app.UseStaticFiles();
 
 // Add CORS middleware
 app.UseCors("AllowSpecificOrigins");
+app.UseCors("AllowLocalhost");
 
 // Add authentication and authorization middleware
 app.UseAuthentication();
