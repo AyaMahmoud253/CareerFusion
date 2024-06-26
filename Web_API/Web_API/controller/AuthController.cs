@@ -48,7 +48,7 @@ namespace Web_API.controller
                 return BadRequest(result.Message);
 
             // Send an email notification about the new login
-            await _mailService.SendEmailAsync(model.Email, "New login", $"<h1>Hey!, new login to your account noticed</h1><p>New login to your account at {DateTime.Now}</p>");
+            //await _mailService.SendEmailAsync(model.Email, "New login", $"<h1>Hey!, new login to your account noticed</h1><p>New login to your account at {DateTime.Now}</p>");
 
             // Include token, user ID, and roles in the response
             return Ok(new
