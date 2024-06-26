@@ -15,7 +15,7 @@ namespace Web_API.services
             _emailSettings = emailSettings.Value;
         }
 
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task SendEmailAsync(string to, string subject, string htmlContent, string plainTextContent)
         {
             var smtpClient = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort)
             {
@@ -28,11 +28,12 @@ namespace Web_API.services
             {
                 From = new MailAddress(_emailSettings.Username),
                 Subject = subject,
-                Body = body,
                 IsBodyHtml = true
             };
 
             mailMessage.To.Add(to);
+            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(plainTextContent, null, "text/plain"));
+            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(htmlContent, null, "text/html"));
 
             await smtpClient.SendMailAsync(mailMessage);
         }
