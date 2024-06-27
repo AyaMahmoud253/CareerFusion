@@ -8,6 +8,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import nltk
 import spacy
+from flask_cors import CORS
 
 # Download NLTK resources
 nltk.download('punkt')
@@ -81,6 +82,7 @@ def preprocess_text(text):
 
 # Flask App
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Define endpoint for job recommendations
 @app.route('/recommend-jobs/<string:user_id>', methods=['GET'])
