@@ -6,10 +6,10 @@ import pyodbc
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import nltk
 import spacy
 
 # Download NLTK resources
-import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
 
@@ -102,27 +102,27 @@ def recommend_jobs(user_id):
     for index, job in jobs.iterrows():
         job_id = job['Id']
         job_title = job['JobTitle']
+        
+        # Fetch job skills
         job_skill_query = job_skills[job_skills['JobFormEntityId'] == job_id]
-        job_skills_list = job_skill_query['SkillName'].tolist()
-        job_skills_text = ', '.join(job_skills_list)
+        job_skills_list = job_skill_query['SkillName'].tolist() if not job_skill_query.empty else []
 
         # Generate job description from job title and skills
         job_description_query = job_descriptions[job_descriptions['JobFormEntityId'] == job_id]
-        if not job_description_query.empty:
-            job_description = job_description_query.iloc[0]['Description']
-        else:
-            job_description = ''
-
-        job_text = preprocess_text(f"{job_title} {job_skills_text} {job_description}")
+        job_description = job_description_query.iloc[0]['Description'] if not job_description_query.empty else ''
+        
+        job_text = preprocess_text(f"{job_title} {', '.join(job_skills_list)} {job_description}")
 
         # Compute similarity
-        similarity = compute_similarity(user_text, job_text)
-
-        # Check if the user has all the required skills for the job
-        user_skills_set = set(user_data['CombinedSkills'].split(', '))
-        job_skills_set = set(job_skills_list)
-        if user_skills_set.issuperset(job_skills_set):
-            similarity = 1.0  # Set similarity to maximum if user has all required skills
+        if job_skills_list:  # Only compute similarity if job has skills
+            similarity = compute_similarity(user_text, job_text)
+            user_skills_set = set(user_data['CombinedSkills'].split(', '))
+            job_skills_set = set(job_skills_list)
+            if user_skills_set.issuperset(job_skills_set):
+                similarity = 1.0  # Set similarity to maximum if user has all required skills
+        else:
+            # If job has no skills, compute similarity based on job title and description only
+            similarity = compute_similarity(user_text, preprocess_text(f"{job_title} {job_description}"))
 
         # Add job to recommended list if similarity is above threshold
         if similarity >= 0.7:
