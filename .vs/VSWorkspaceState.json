@@ -3,10 +3,8 @@
     "",
     "\\.github",
     "\\Web_API",
-    "\\Web_API\\Web_API",
-    "\\Web_API\\Web_API\\controller",
-    "\\Web_API\\Web_API\\services"
+    "\\Web_API\\Web_API"
   ],
-  "SelectedNode": "\\Web_API\\Web_API\\controller\\ForRecommendController.cs",
+  "SelectedNode": "\\Web_API\\Web_API.sln",
   "PreviewInSolutionExplorer": false
 }

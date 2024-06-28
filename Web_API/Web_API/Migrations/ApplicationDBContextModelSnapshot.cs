@@ -306,6 +306,33 @@ namespace Web_API.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("Web_API.Models.Goal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HRUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Goals");
+                });
+
             modelBuilder.Entity("Web_API.Models.JobDescriptionEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -839,7 +866,7 @@ namespace Web_API.Migrations
             modelBuilder.Entity("Web_API.Models.PostFile", b =>
                 {
                     b.HasOne("Web_API.Models.Post", "UploadedPost")
-                        .WithMany()
+                        .WithMany("PostFiles")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -850,7 +877,7 @@ namespace Web_API.Migrations
             modelBuilder.Entity("Web_API.Models.PostPicture", b =>
                 {
                     b.HasOne("Web_API.Models.Post", "Post")
-                        .WithMany()
+                        .WithMany("PostPictures")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -948,6 +975,13 @@ namespace Web_API.Migrations
                     b.Navigation("JobSkills");
 
                     b.Navigation("TelephoneInterviewQuestions");
+                });
+
+            modelBuilder.Entity("Web_API.Models.Post", b =>
+                {
+                    b.Navigation("PostFiles");
+
+                    b.Navigation("PostPictures");
                 });
 #pragma warning restore 612, 618
         }
