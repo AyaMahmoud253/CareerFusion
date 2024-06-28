@@ -43,6 +43,45 @@ namespace Web_API.Controllers
 
 
         }
+        [HttpGet("{hrUserId}/technical-interview-passed")]
+        public async Task<ActionResult<IEnumerable<object>>> GetUsersPassedTechnicalInterviewForHR(string hrUserId)
+        {
+            try
+            {
+                // Find job forms added by the specified HR user
+                var jobForms = await _context.JobForms
+                    .Where(jf => jf.UserId == hrUserId)
+                    .ToListAsync();
+
+                if (jobForms == null || !jobForms.Any())
+                {
+                    return NotFound(new { Message = $"No job forms found for HR user with ID {hrUserId}." });
+                }
+
+                // Get the IDs of these job forms
+                var jobFormIds = jobForms.Select(jf => jf.Id).ToList();
+
+                // Find job form CVs that have passed the technical interview
+                var records = await _context.JobFormCVs
+                    .Where(cv => jobFormIds.Contains(cv.JobFormId) && cv.IsTechnicalInterviewPassed) // Assuming you have a flag for technical interview status
+                    .Select(cv => new
+                    {
+                        cv.Id,
+                        cv.JobFormId,
+                        cv.UserId,
+                        UserEmail = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.Email).FirstOrDefault(),
+                        UserFullName = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.FullName).FirstOrDefault(),
+                        cv.FilePath
+                    }).ToListAsync();
+
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred: {ex.Message}");
+                return StatusCode(500, new { Success = false, Message = $"An error occurred: {ex.Message}" });
+            }
+        }
 
         [HttpPost("{jobFormId}/upload-cv")]
         public async Task<IActionResult> UploadCVForJobForm(int jobFormId, string userId, IFormFile cvFile)
