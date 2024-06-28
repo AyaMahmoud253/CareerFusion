@@ -3,8 +3,9 @@
     "",
     "\\.github",
     "\\Web_API",
-    "\\Web_API\\Web_API"
+    "\\Web_API\\Web_API",
+    "\\Web_API\\Web_API\\controller"
   ],
-  "SelectedNode": "\\Web_API\\Web_API.sln",
+  "SelectedNode": "\\Web_API\\Web_API\\controller\\OpenPosCVController.cs",
   "PreviewInSolutionExplorer": false
 }
