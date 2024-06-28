@@ -4,8 +4,9 @@
     "\\.github",
     "\\Web_API",
     "\\Web_API\\Web_API",
-    "\\Web_API\\Web_API\\controller"
+    "\\Web_API\\Web_API\\controller",
+    "\\Web_API\\Web_API\\services"
   ],
-  "SelectedNode": "\\Web_API\\Web_API\\Program.cs",
+  "SelectedNode": "\\Web_API\\Web_API\\services\\EmailService.cs",
   "PreviewInSolutionExplorer": false
 }

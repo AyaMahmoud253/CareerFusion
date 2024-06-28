@@ -1,14 +1,14 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
+import requests
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import pyodbc
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import nltk
 import spacy
-from flask_cors import CORS
+import nltk
 
 # Download NLTK resources
 nltk.download('punkt')
@@ -17,47 +17,43 @@ nltk.download('stopwords')
 # Load SpaCy model
 nlp = spacy.load("en_core_web_md")
 
-# Establish a connection to SQL Server
-conn_str = (
-    r"Driver={ODBC Driver 17 for SQL Server};"
-    r"Server=DESKTOP-5BL7H39;"
-    r"Database=UserApp;"
-    r"Trusted_Connection=yes;"
-    r"TrustServerCertificate=Yes;"
-)
-conn = pyodbc.connect(conn_str)
+# Base URL for .NET API
+BASE_URL = "http://localhost:5266/api/ForRecommend"
 
-# Define a function to handle reading data into DataFrames
-def read_sql_query(query, conn):
+# Function to fetch data from .NET API
+def fetch_data(endpoint):
     try:
-        return pd.read_sql(query, conn, coerce_float=False)
-    except Exception as e:
-        print(f"Error reading query: {query}")
-        print(f"Error message: {str(e)}")
-        return pd.DataFrame()  # Return an empty DataFrame on error
+        response = requests.get(f"{BASE_URL}/{endpoint}")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching {endpoint}: {e}")
+        return []
 
-# Query the data for each table
-query_users = """
-    SELECT Id, Title, Address
-    FROM AspNetUsers
-"""
+# Fetch data from .NET API endpoints
+users = fetch_data("users")
+jobs = fetch_data("jobs")
 
-query_skills = "SELECT * FROM Skills"
-query_jobs = "SELECT * FROM JobForms"
-query_job_skills = "SELECT * FROM JobSkills"
-query_job_descriptions = "SELECT * FROM JobDescriptions"
+# Debugging: Print the fetched user data
+print("Users data:", users)
 
-# Load data into DataFrames
-users = read_sql_query(query_users, conn)
-skills = read_sql_query(query_skills, conn)
-jobs = read_sql_query(query_jobs, conn)
-job_skills = read_sql_query(query_job_skills, conn)
-job_descriptions = read_sql_query(query_job_descriptions, conn)
+# Convert user data to DataFrame
+users_df = pd.DataFrame(users)
+
+# Rename columns to match JSON keys
+users_df.rename(columns={
+    'id': 'Id',
+    'title': 'Title',
+    'address': 'Address',
+    'combinedSkills': 'CombinedSkills'
+}, inplace=True)
+
+# Ensure CombinedSkills column exists
+if 'CombinedSkills' not in users_df.columns:
+    users_df['CombinedSkills'] = ''
 
 # Preprocessing
-# Combine user skills
-users['CombinedSkills'] = users['Id'].map(skills.groupby('UserId')['SkillName'].apply(', '.join))
-users['CombinedSkills'] = users['CombinedSkills'].fillna('')
+users_df['CombinedSkills'] = users_df['CombinedSkills'].fillna('')
 
 # Define the function to compute similarity
 def compute_similarity(user_text, job_text):
@@ -82,13 +78,13 @@ def preprocess_text(text):
 
 # Flask App
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)  # Enable CORS for the Flask app
 
 # Define endpoint for job recommendations
 @app.route('/recommend-jobs/<string:user_id>', methods=['GET'])
 def recommend_jobs(user_id):
     # Fetch user's information from the DataFrame
-    user_data = users[users['Id'] == user_id].iloc[0]
+    user_data = users_df[users_df['Id'] == user_id].iloc[0]
 
     # Check if the user has all the required skills for the job
     if 'CombinedSkills' not in user_data:
@@ -101,19 +97,16 @@ def recommend_jobs(user_id):
     recommended_jobs = []
 
     # Iterate through jobs and compute similarity
-    for index, job in jobs.iterrows():
-        job_id = job['Id']
-        job_title = job['JobTitle']
-        
-        # Fetch job skills
-        job_skill_query = job_skills[job_skills['JobFormEntityId'] == job_id]
-        job_skills_list = job_skill_query['SkillName'].tolist() if not job_skill_query.empty else []
+    for job in jobs:
+        job_id = job['id']
+        job_title = job['jobTitle']
+        job_skills_list = job['skills']
+        job_skills_text = ', '.join(job_skills_list)
 
         # Generate job description from job title and skills
-        job_description_query = job_descriptions[job_descriptions['JobFormEntityId'] == job_id]
-        job_description = job_description_query.iloc[0]['Description'] if not job_description_query.empty else ''
-        
-        job_text = preprocess_text(f"{job_title} {', '.join(job_skills_list)} {job_description}")
+        job_description = ', '.join(job['descriptions'])
+
+        job_text = preprocess_text(f"{job_title} {job_skills_text} {job_description}")
 
         # Compute similarity
         if job_skills_list:  # Only compute similarity if job has skills
