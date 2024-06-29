@@ -11,7 +11,8 @@ namespace Web_API.Models
         public int Score { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        // Navigation property
+        public ICollection<UserGoalScore> UserGoalScores { get; set; }
+
     }
     public class GoalInputModel
     {
@@ -19,4 +20,15 @@ namespace Web_API.Models
         public string Description { get; set; }
         public int Score { get; set; }
     }
+    public class UserGoalScore
+    {
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public int GoalId { get; set; }
+        public int Score { get; set; }
+
+        public Goal Goal { get; set; }
+    }
+
+
 }

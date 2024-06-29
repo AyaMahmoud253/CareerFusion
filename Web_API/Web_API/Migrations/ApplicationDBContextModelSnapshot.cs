@@ -22,6 +22,30 @@ namespace Web_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EvaluationQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DefaultScore")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HRId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EvaluationQuestions");
+                });
+
             modelBuilder.Entity("JobFormCV", b =>
                 {
                     b.Property<int>("Id")
@@ -197,6 +221,31 @@ namespace Web_API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("UserQuestionScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EvaluationQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EvaluationQuestionId");
+
+                    b.ToTable("UserQuestionScores");
                 });
 
             modelBuilder.Entity("Web_API.Models.ApplicationUser", b =>
@@ -724,6 +773,31 @@ namespace Web_API.Migrations
                     b.ToTable("TimelineStages");
                 });
 
+            modelBuilder.Entity("Web_API.Models.UserGoalScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GoalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoalId");
+
+                    b.ToTable("UserGoalScore");
+                });
+
             modelBuilder.Entity("JobFormCV", b =>
                 {
                     b.HasOne("Web_API.Models.JobFormEntity", "JobForm")
@@ -784,6 +858,17 @@ namespace Web_API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UserQuestionScore", b =>
+                {
+                    b.HasOne("EvaluationQuestion", "EvaluationQuestion")
+                        .WithMany()
+                        .HasForeignKey("EvaluationQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EvaluationQuestion");
                 });
 
             modelBuilder.Entity("Web_API.Models.Course", b =>
@@ -951,6 +1036,17 @@ namespace Web_API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Web_API.Models.UserGoalScore", b =>
+                {
+                    b.HasOne("Web_API.Models.Goal", "Goal")
+                        .WithMany("UserGoalScores")
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Goal");
+                });
+
             modelBuilder.Entity("Web_API.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Courses");
@@ -962,6 +1058,11 @@ namespace Web_API.Migrations
                     b.Navigation("SiteLinks");
 
                     b.Navigation("Skills");
+                });
+
+            modelBuilder.Entity("Web_API.Models.Goal", b =>
+                {
+                    b.Navigation("UserGoalScores");
                 });
 
             modelBuilder.Entity("Web_API.Models.JobFormEntity", b =>

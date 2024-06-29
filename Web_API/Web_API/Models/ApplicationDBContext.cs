@@ -25,7 +25,8 @@ namespace Web_API.Models
         public DbSet<TelephoneInterviewQuestionEntity> TelephoneInterviewQuestions { get; set; } // Add this DbSet
         public DbSet<PostFile> PostFiles { get; set; } // Add this DbSet for the new model
         public DbSet<TelephoneInterviewQuestion> TelephonePostQuestions { get; set; }
-
+        public DbSet<EvaluationQuestion> EvaluationQuestions { get; set; }
+        public DbSet<UserQuestionScore> UserQuestionScores { get; set; }
         public DbSet<Goal> Goals { get; set; }
 
 
@@ -38,7 +39,11 @@ namespace Web_API.Models
                 .HasMany(u => u.Courses)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId);
-           
+            builder.Entity<UserQuestionScore>()
+            .HasOne(uqs => uqs.EvaluationQuestion)
+            .WithMany()
+            .HasForeignKey(uqs => uqs.EvaluationQuestionId);
+
         }
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
