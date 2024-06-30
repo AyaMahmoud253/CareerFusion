@@ -12,6 +12,7 @@ using Web_API.services;
 using Web_API.Services;
 using OfficeOpenXml;
 using Web_API.Settings;
+using Web_API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddSignalR();
 
 // Add authentication
 builder.Services.AddAuthentication(options =>
@@ -103,6 +106,8 @@ builder.Services.AddTransient<IMailService, SendGridMailService>();
 
 builder.Services.AddRazorPages();
 var app = builder.Build();
+
+app.MapHub<NotificationHub>("/notificationHub");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

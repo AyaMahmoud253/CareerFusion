@@ -16,6 +16,8 @@ using System.IO.Compression;
 using System.Collections.Generic;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.SignalR;
+using Web_API.Hubs;
 
 namespace Web_API.Controllers
 {
@@ -29,17 +31,20 @@ namespace Web_API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly ILogger<OpenPosCVController> _logger;
+        private readonly IHubContext<NotificationHub> _hubContext;
+
 
 
 
         public OpenPosCVController(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, UserManager<ApplicationUser> userManager,
-            IConfiguration configuration, ILogger<OpenPosCVController> logger)
+            IConfiguration configuration, ILogger<OpenPosCVController> logger,IHubContext<NotificationHub> hubContext)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
             _userManager = userManager;
             _configuration = configuration;
             _logger = logger;
+            _hubContext = hubContext;
 
 
         }
@@ -400,6 +405,11 @@ namespace Web_API.Controllers
                 _context.JobFormCVs.Update(jobFormCV); // Ensure the changes to jobFormCV are tracked
                 await _context.SaveChangesAsync();
 
+                // Send the notification via SignalR
+                await _hubContext.Clients.User(jobFormCV.UserId)
+                    .SendAsync("ReceiveNotification", notification.Message);
+
+
                 return Ok(new ServiceResult { Success = true, Message = $"Interview date set for JobForm ID '{jobFormId}' and CV ID '{id}'." });
             }
             catch (Exception ex)
@@ -457,6 +467,10 @@ namespace Web_API.Controllers
                     };
 
                     _context.Notifications.Add(notification);
+
+                    // Send the notification via SignalR
+                    await _hubContext.Clients.User(jobFormCV.UserId)
+                        .SendAsync("ReceiveNotification", notification.Message);
                 }
 
                 await _context.SaveChangesAsync();
@@ -516,6 +530,10 @@ namespace Web_API.Controllers
                         CreatedAt = DateTime.UtcNow
                     };
                     _context.Notifications.Add(notificationTechnical);
+
+                    // Send SignalR notification for technical assessment
+                    await _hubContext.Clients.User(user.Id)
+                        .SendAsync("ReceiveNotification", notificationTechnical.Message);
                 }
 
                 if (physicalInterviewDate.HasValue)
@@ -528,6 +546,10 @@ namespace Web_API.Controllers
                         CreatedAt = DateTime.UtcNow
                     };
                     _context.Notifications.Add(notificationPhysical);
+
+                    // Send SignalR notification for physical interview
+                    await _hubContext.Clients.User(user.Id)
+                        .SendAsync("ReceiveNotification", notificationPhysical.Message);
                 }
 
                 _context.JobFormCVs.Update(jobFormCV); // Ensure the changes to jobFormCV are tracked
@@ -714,6 +736,10 @@ namespace Web_API.Controllers
 
                     _context.Notifications.Add(notification);
                     await _context.SaveChangesAsync();
+
+                    // Send SignalR notification
+                    await _hubContext.Clients.User(user.Id)
+                        .SendAsync("ReceiveNotification", notification.Message);
 
                     return Ok(new ServiceResult { Success = true, Message = $"Technical interview status toggled for Job Form CV ID {jobFormCVId}." });
                 }

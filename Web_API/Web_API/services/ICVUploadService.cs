@@ -20,6 +20,9 @@ namespace Web_API.Services
         Task<ServiceResult> ToggleTechnicalInterviewForPostCVAsync(int postId, int postCVId, bool passed, string hrMessage);
         Task<IEnumerable<object>> GetRecordsWithTechnicalInterviewPassedAsync(int postId);
         Task<MemoryStream> ExportRecordsWithTechnicalInterviewPassedToExcelAsync(int postId);
+        Task<List<object>> GetUsersPassedTechnicalInterviewForHRPostsAsync(string hrUserId);
+
+
 
 
 

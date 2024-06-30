@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.config",
+    "\\bin",
+    "\\controller",
+    "\\Hubs",
+    "\\Migrations",
+    "\\Models",
+    "\\services"
+  ],
+  "SelectedNode": "\\Models\\PostCV.cs",
+  "PreviewInSolutionExplorer": false
+}

@@ -52,6 +52,27 @@ namespace Web_API.Controllers
             return Ok(jobs);
         }
 
-        // Add other endpoints for Skills, JobSkills, and JobDescriptions as needed
+        [HttpGet("users/{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var user = await _context.Users
+                .Where(u => u.Id == id)
+                .Select(u => new {
+                    u.Id,
+                    u.Title,
+                    u.Address,
+                    CombinedSkills = string.Join(", ", u.Skills.Select(s => s.SkillName))
+                })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
+
     }
 }

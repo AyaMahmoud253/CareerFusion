@@ -4065,3 +4065,4 @@ C:\Users\laptop\Documents\GitHub\CareerFusionLastGP\Web_API\Web_API\obj\Debug\ne
 C:\Users\laptop\Documents\GitHub\CareerFusionLastGP\Web_API\Web_API\obj\Debug\net7.0\Web_API.pdb
 C:\Users\laptop\Documents\GitHub\CareerFusionLastGP\Web_API\Web_API\obj\Debug\net7.0\Web_API.genruntimeconfig.cache
 C:\Users\laptop\Documents\GitHub\CareerFusionLastGP\Web_API\Web_API\obj\Debug\net7.0\ref\Web_API.dll
+C:\Users\compumarts\Source\Repos\CareerFusion\Web_API\Web_API\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll

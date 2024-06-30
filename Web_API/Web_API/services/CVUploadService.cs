@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Web_API.Controllers;
 using Web_API.services;
 using OfficeOpenXml;
+using Microsoft.AspNetCore.SignalR;
+using Web_API.Hubs;
 
 namespace Web_API.Services
 {
@@ -21,17 +23,21 @@ namespace Web_API.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<CVUploadService> _logger;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
 
 
 
-        public CVUploadService(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, ILogger<CVUploadService> logger)
+
+        public CVUploadService(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, ILogger<CVUploadService> logger, IHubContext<NotificationHub> hubContext)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             _logger = logger;
+            _hubContext = hubContext;
+
         }
 
         public async Task<string> UploadFileAsync(int postId, string userId, IFormFile file)
@@ -220,6 +226,10 @@ namespace Web_API.Services
                 _context.PostCVs.Update(postCV); // Ensure the changes to postCV are tracked
                 await _context.SaveChangesAsync();
 
+                // Send SignalR notification
+                await _hubContext.Clients.User(postCV.UserId)
+                    .SendAsync("ReceiveNotification", notification.Message);
+
                 return new ServiceResult { Success = true, Message = $"Interview date set for Post ID '{postId}' and CV ID '{id}'." };
             }
             catch (Exception ex)
@@ -278,6 +288,10 @@ namespace Web_API.Services
 
                 _context.Notifications.Add(notification);
                 await _context.SaveChangesAsync();
+
+                // Send SignalR notification
+                await _hubContext.Clients.User(postCV.UserId)
+                    .SendAsync("ReceiveNotification", notification.Message);
 
                 return new ServiceResult { Success = true, Message = $"Telephone interview status toggled for Post CV ID {postCVId}." };
             }
@@ -399,6 +413,10 @@ namespace Web_API.Services
                         };
 
                         _context.Notifications.Add(notificationTechnical);
+
+                        // Send SignalR notification
+                        await _hubContext.Clients.User(user.Id)
+                            .SendAsync("ReceiveNotification", notificationTechnical.Message);
                     }
 
                     if (physicalInterviewDate.HasValue)
@@ -412,6 +430,10 @@ namespace Web_API.Services
                         };
 
                         _context.Notifications.Add(notificationPhysical);
+
+                        // Send SignalR notification
+                        await _hubContext.Clients.User(user.Id)
+                            .SendAsync("ReceiveNotification", notificationPhysical.Message);
                     }
                     _context.PostCVs.Update(postCV);
                     await _context.SaveChangesAsync();
@@ -492,6 +514,10 @@ namespace Web_API.Services
                 _context.Notifications.Add(notification);
                 await _context.SaveChangesAsync();
 
+                // Send SignalR notification
+                await _hubContext.Clients.User(postCV.UserId)
+                    .SendAsync("ReceiveNotification", notification.Message);
+
                 return new ServiceResult { Success = true, Message = $"Technical interview status toggled for Post CV ID {postCVId}." };
             }
             catch (Exception ex)
@@ -565,6 +591,42 @@ namespace Web_API.Services
                 stream.Position = 0;
 
                 return stream;
+            }
+        }
+
+        public async Task<List<object>> GetUsersPassedTechnicalInterviewForHRPostsAsync(string hrUserId)
+        {
+            try
+            {
+                // Find all posts posted by the HR user
+                var postIds = await _context.Posts
+                    .Where(p => p.UserId == hrUserId)
+                    .Select(p => p.PostId)
+                    .ToListAsync();
+
+                if (postIds == null || !postIds.Any())
+                {
+                    throw new ArgumentException($"No posts found for HR user with ID {hrUserId}.");
+                }
+
+                // Find post CVs that have passed the technical interview for these posts
+                var records = await _context.PostCVs
+                    .Where(cv => postIds.Contains(cv.PostId) && cv.IsTechnicalInterviewPassed)
+                    .Select(cv => new
+                    {
+                        cv.PostCVId,
+                        cv.PostId,
+                        cv.UserId,
+                        UserEmail = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.Email).FirstOrDefault(),
+                        UserFullName = _context.Users.Where(u => u.Id == cv.UserId).Select(u => u.FullName).FirstOrDefault(),
+                        cv.FilePath
+                    }).ToListAsync<object>();
+
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred in CVUploadService: {ex.Message}", ex);
             }
         }
 

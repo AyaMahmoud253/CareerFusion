@@ -404,6 +404,25 @@ namespace Web_API.Controllers
             }
         }
 
+        [HttpGet("{hrUserId}/technical-interview-passed/all-posts")]
+        public async Task<ActionResult<IEnumerable<object>>> GetUsersPassedTechnicalInterviewForHRPosts(string hrUserId)
+        {
+            try
+            {
+                var records = await _cvUploadService.GetUsersPassedTechnicalInterviewForHRPostsAsync(hrUserId);
+                return Ok(records);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred: {ex.Message}");
+                return StatusCode(500, new { Success = false, Message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
 
 
 
