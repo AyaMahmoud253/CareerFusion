@@ -57,6 +57,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddSignalR();
 
+
 // Add authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -122,6 +123,7 @@ app.UseStaticFiles();
 // Add CORS middleware
 app.UseCors("AllowSpecificOrigins");
 app.UseCors("AllowLocalhost");
+
 
 // Add authentication and authorization middleware
 app.UseAuthentication();
