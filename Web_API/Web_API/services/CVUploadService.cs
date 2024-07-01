@@ -227,8 +227,10 @@ namespace Web_API.Services
                 await _context.SaveChangesAsync();
 
                 // Send SignalR notification
-                await _hubContext.Clients.User(postCV.UserId)
-                    .SendAsync("ReceiveNotification", notification.Message);
+                if (NotificationHub.UserConnections.TryGetValue(postCV.UserId, out string connectionId))
+                {
+                    await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveNotification", notification.Message);
+                }
 
                 return new ServiceResult { Success = true, Message = $"Interview date set for Post ID '{postId}' and CV ID '{id}'." };
             }
