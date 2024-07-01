@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Web_API.Models;
 using Web_API.services;
 
@@ -6,6 +7,7 @@ namespace Web_API.controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;
