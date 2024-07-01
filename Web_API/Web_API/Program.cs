@@ -96,6 +96,8 @@ builder.Services.AddScoped<ITelephoneQuestionsService,TelephoneQuestionsService>
 // Add services to the container
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IReportService,ReportService>();
+
 
 
 

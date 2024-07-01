@@ -13258,11 +13258,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
+      "projectUniqueName": "C:\\Users\\compumarts\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
       "projectName": "Web_API",
-      "projectPath": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
+      "projectPath": "C:\\Users\\compumarts\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\Web_API.csproj",
       "packagesPath": "C:\\Users\\compumarts\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\compumarts\\source\\repos\\CareerFusion\\Web_API\\Web_API\\obj\\",
+      "outputPath": "C:\\Users\\compumarts\\Source\\Repos\\CareerFusion\\Web_API\\Web_API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\compumarts\\AppData\\Roaming\\NuGet\\NuGet.Config",

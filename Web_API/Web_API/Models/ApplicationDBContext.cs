@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Composition;
 using System.Diagnostics;
 using System.Reflection.Emit;
 
@@ -28,6 +29,8 @@ namespace Web_API.Models
         public DbSet<EvaluationQuestion> EvaluationQuestions { get; set; }
         public DbSet<UserQuestionScore> UserQuestionScores { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<ReportCreateModel> Reports { get; set; }
+        public DbSet<ReportRecipient> ReportRecipients { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
