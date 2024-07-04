@@ -32,12 +32,14 @@ namespace Web_API.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<OpenPosCVController> _logger;
         private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IEmailService _emailService;
+
 
 
 
 
         public OpenPosCVController(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, UserManager<ApplicationUser> userManager,
-            IConfiguration configuration, ILogger<OpenPosCVController> logger,IHubContext<NotificationHub> hubContext)
+            IConfiguration configuration, ILogger<OpenPosCVController> logger,IHubContext<NotificationHub> hubContext, IEmailService emailService)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
@@ -45,6 +47,8 @@ namespace Web_API.Controllers
             _configuration = configuration;
             _logger = logger;
             _hubContext = hubContext;
+            _emailService = emailService;
+
 
 
         }
@@ -409,6 +413,19 @@ namespace Web_API.Controllers
                 await _hubContext.Clients.User(jobFormCV.UserId)
                     .SendAsync("ReceiveNotification", notification.Message);
 
+                // Get user details
+                var notificationUser = await _userManager.FindByIdAsync(jobFormCV.UserId);
+                if (notificationUser != null)
+                {
+                    // Send email notification
+                    await _emailService.SendEmailAsync(
+                        to: notificationUser.Email,
+                        subject: "Telephone Interview Scheduled",
+                        htmlContent: $"<p>{notification.Message}</p>",
+                        plainTextContent: notification.Message
+                    );
+                }
+
 
                 return Ok(new ServiceResult { Success = true, Message = $"Interview date set for JobForm ID '{jobFormId}' and CV ID '{id}'." });
             }
@@ -471,6 +488,19 @@ namespace Web_API.Controllers
                     // Send the notification via SignalR
                     await _hubContext.Clients.User(jobFormCV.UserId)
                         .SendAsync("ReceiveNotification", notification.Message);
+
+                    // Get user details
+                    var user = await _userManager.FindByIdAsync(jobFormCV.UserId);
+                    if (user != null)
+                    {
+                        // Send email notification
+                        await _emailService.SendEmailAsync(
+                            to: user.Email,
+                            subject: "Telephone Interview Passed",
+                            htmlContent: $"<p>{notification.Message}</p>",
+                            plainTextContent: notification.Message
+                        );
+                    }
                 }
 
                 await _context.SaveChangesAsync();
@@ -534,6 +564,14 @@ namespace Web_API.Controllers
                     // Send SignalR notification for technical assessment
                     await _hubContext.Clients.User(user.Id)
                         .SendAsync("ReceiveNotification", notificationTechnical.Message);
+
+                    // Send email notification for technical assessment
+                    await _emailService.SendEmailAsync(
+                        to: user.Email,
+                        subject: "Technical Assessment Scheduled",
+                        htmlContent: $"<p>{notificationTechnical.Message}</p>",
+                        plainTextContent: notificationTechnical.Message
+                    );
                 }
 
                 if (physicalInterviewDate.HasValue)
@@ -550,6 +588,14 @@ namespace Web_API.Controllers
                     // Send SignalR notification for physical interview
                     await _hubContext.Clients.User(user.Id)
                         .SendAsync("ReceiveNotification", notificationPhysical.Message);
+
+                    // Send email notification for physical interview
+                    await _emailService.SendEmailAsync(
+                        to: user.Email,
+                        subject: "Physical Interview Scheduled",
+                        htmlContent: $"<p>{notificationPhysical.Message}</p>",
+                        plainTextContent: notificationPhysical.Message
+                    );
                 }
 
                 _context.JobFormCVs.Update(jobFormCV); // Ensure the changes to jobFormCV are tracked
@@ -740,6 +786,14 @@ namespace Web_API.Controllers
                     // Send SignalR notification
                     await _hubContext.Clients.User(user.Id)
                         .SendAsync("ReceiveNotification", notification.Message);
+
+                    // Send email notification
+                    await _emailService.SendEmailAsync(
+                        to: user.Email,
+                        subject: "Technical Interview Result",
+                        htmlContent: $"<p>{notification.Message}</p>",
+                        plainTextContent: notification.Message
+                    );
 
                     return Ok(new ServiceResult { Success = true, Message = $"Technical interview status toggled for Job Form CV ID {jobFormCVId}." });
                 }

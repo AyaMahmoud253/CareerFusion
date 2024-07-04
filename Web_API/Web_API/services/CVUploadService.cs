@@ -24,12 +24,14 @@ namespace Web_API.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<CVUploadService> _logger;
         private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IEmailService _emailService;
 
 
 
 
 
-        public CVUploadService(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, ILogger<CVUploadService> logger, IHubContext<NotificationHub> hubContext)
+
+        public CVUploadService(ApplicationDBContext context, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, ILogger<CVUploadService> logger, IHubContext<NotificationHub> hubContext, IEmailService emailService)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
@@ -37,7 +39,7 @@ namespace Web_API.Services
             _userManager = userManager;
             _logger = logger;
             _hubContext = hubContext;
-
+            _emailService = emailService;
         }
 
         public async Task<string> UploadFileAsync(int postId, string userId, IFormFile file)
@@ -232,6 +234,17 @@ namespace Web_API.Services
                     await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveNotification", notification.Message);
                 }
 
+                // Send Email Notification
+                var userToNotify = await _userManager.FindByIdAsync(postCV.UserId);
+                if (userToNotify != null)
+                {
+                    var subject = "Telephone Interview Scheduled";
+                    var plainTextContent = notification.Message;
+                    var htmlContent = $"<p>{notification.Message}</p>";
+
+                    await _emailService.SendEmailAsync(userToNotify.Email, subject, htmlContent, plainTextContent);
+                }
+
                 return new ServiceResult { Success = true, Message = $"Interview date set for Post ID '{postId}' and CV ID '{id}'." };
             }
             catch (Exception ex)
@@ -294,6 +307,19 @@ namespace Web_API.Services
                 // Send SignalR notification
                 await _hubContext.Clients.User(postCV.UserId)
                     .SendAsync("ReceiveNotification", notification.Message);
+
+                // Retrieve the user's email
+                var user = await _userManager.FindByIdAsync(postCV.UserId);
+                if (user != null)
+                {
+                    // Send Email notification
+                    await _emailService.SendEmailAsync(
+                        to: user.Email,
+                        subject: "Telephone Interview Status",
+                        htmlContent: $"<p>{notification.Message}</p>",
+                        plainTextContent: notification.Message
+                    );
+                }
 
                 return new ServiceResult { Success = true, Message = $"Telephone interview status toggled for Post CV ID {postCVId}." };
             }
@@ -419,6 +445,14 @@ namespace Web_API.Services
                         // Send SignalR notification
                         await _hubContext.Clients.User(user.Id)
                             .SendAsync("ReceiveNotification", notificationTechnical.Message);
+
+                        // Send Email notification
+                        await _emailService.SendEmailAsync(
+                            to: user.Email,
+                            subject: "Technical Assessment Scheduled",
+                            htmlContent: $"<p>{notificationTechnical.Message}</p>",
+                            plainTextContent: notificationTechnical.Message
+                        );
                     }
 
                     if (physicalInterviewDate.HasValue)
@@ -436,6 +470,14 @@ namespace Web_API.Services
                         // Send SignalR notification
                         await _hubContext.Clients.User(user.Id)
                             .SendAsync("ReceiveNotification", notificationPhysical.Message);
+
+                        // Send Email notification
+                        await _emailService.SendEmailAsync(
+                            to: user.Email,
+                            subject: "Physical Interview Scheduled",
+                            htmlContent: $"<p>{notificationPhysical.Message}</p>",
+                            plainTextContent: notificationPhysical.Message
+                        );
                     }
                     _context.PostCVs.Update(postCV);
                     await _context.SaveChangesAsync();
@@ -519,6 +561,19 @@ namespace Web_API.Services
                 // Send SignalR notification
                 await _hubContext.Clients.User(postCV.UserId)
                     .SendAsync("ReceiveNotification", notification.Message);
+
+                // Get user details
+                var user = await _userManager.FindByIdAsync(postCV.UserId);
+                if (user != null)
+                {
+                    // Send email notification
+                    await _emailService.SendEmailAsync(
+                        to: user.Email,
+                        subject: "Technical Interview Status",
+                        htmlContent: $"<p>{notification.Message}</p>",
+                        plainTextContent: notification.Message
+                    );
+                }
 
                 return new ServiceResult { Success = true, Message = $"Technical interview status toggled for Post CV ID {postCVId}." };
             }
